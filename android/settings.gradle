@@ -1,0 +1,3 @@
+rootProject.name = 'movienightmobile'
+
+include ':app'
