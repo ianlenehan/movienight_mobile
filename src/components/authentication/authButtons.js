@@ -11,41 +11,6 @@ import Button from '../common/button';
 const ACCESS_TOKEN = 'access_token';
 
 class authButtons extends Component {
-  componentWillMount() {
-    this.getToken();
-  }
-
-  async getToken() {
-    try {
-      let accessToken = await AsyncStorage.getItem(ACCESS_TOKEN)
-      if(!accessToken) {
-        console.log("Token not set");
-      } else {
-        console.log("access token:" + accessToken);
-        this.verifyToken(accessToken)
-      }
-    } catch(error) {
-      console.log("Something went wrong");
-    }
-  }
-
-  async verifyToken(accessToken) {
-    try {
-      let url = 'http://localhost:3000/api/v1/verify?session&access_token%5D='
-      let response = await fetch(url + accessToken)
-      let res = await response.text();
-      if (response.status >= 200 && response.status < 300) {
-        this.props.navigator.immediatelyResetRouteStack([{ name: 'userSummary' }])
-      } else {
-        let error = res;
-        throw error;
-      }
-    } catch(error) {
-      console.log("error response: " + error);
-    }
-  }
-
-
   render() {
     return (
       <View style={[styles.container, styles.center]}>
@@ -62,11 +27,11 @@ class authButtons extends Component {
   }
 
   onSigninPress() {
-    this.props.navigator.immediatelyResetRouteStack([{ name: 'login' }])
+    this.props.navigator.push({ name: 'login' })
   }
 
   onSignupPress() {
-    this.props.navigator.immediatelyResetRouteStack([{ name: 'register' }])
+    this.props.navigator.push({ name: 'register' })
   }
 }
 

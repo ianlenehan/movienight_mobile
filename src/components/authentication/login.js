@@ -23,7 +23,7 @@ class Login extends Component {
     }
   }
 
-  async storeToken(accessToken) { 
+  async storeToken(accessToken) {
     try {
       await AsyncStorage.setItem(ACCESS_TOKEN, accessToken);
       this.getToken();
@@ -83,26 +83,34 @@ class Login extends Component {
       this.setState({error: error});
       console.log("Error: ", error);
     }
-    this.props.navigator.immediatelyResetRouteStack([{ name: 'users' }])
+    this.props.navigator.immediatelyResetRouteStack([{ name: 'userSummary' }])
   }
 
   render() {
     return (
       <View style={styles.container}>
-        <TextInput
-        onChangeText={(val) => {this.setState({ email: val })}}
-        style={styles.input} placeholder="Email"
-        autoCorrect={false}
-        autoCapitalize={'none'}
-        />
-        <TextInput
-        onChangeText={(val) => {this.setState({ password: val })}}
-        style={styles.input} placeholder="Password"
-        secureTextEntry={true}
-        />
+        <View style={styles.header}>
+          <Text>MovieNight</Text>
+        </View>
 
-      <Button text={'Log In'} onPress={this.onPressLogin.bind(this)} />
+        <View style={styles.middle}>
+          <TextInput
+          onChangeText={(val) => {this.setState({ email: val })}}
+          style={styles.input} placeholder="Email"
+          autoCorrect={false}
+          autoCapitalize={'none'}
+          />
+          <TextInput
+          onChangeText={(val) => {this.setState({ password: val })}}
+          style={styles.input} placeholder="Password"
+          secureTextEntry={true}
+          />
+          <Button text={'Log In'} onPress={this.onPressLogin.bind(this)} />
+        </View>
+
+        <View style={styles.footer}></View>
       </View>
+
     );
   }
 }
@@ -110,16 +118,28 @@ class Login extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: setStyles.backgroundColor,
-    justifyContent: 'flex-start'
+    justifyContent: 'center'
   },
+  middle: {
+    flex: 4,
+    backgroundColor: setStyles.backgroundColor,
+    justifyContent: 'flex-start',
+    padding: 10,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  header: setStyles.container,
+  footer: setStyles.container,
   input: {
     height: 50,
     marginTop: 10,
+    marginBottom: 10,
     padding: 4,
     fontSize: 18,
     borderWidth: 1,
-    borderColor: '#48bbec'
+    borderColor: setStyles.secondaryColor,
+    borderRadius: 5,
+    backgroundColor: 'white'
   }
 })
 

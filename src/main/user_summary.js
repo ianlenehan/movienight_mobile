@@ -6,6 +6,7 @@ import {
   AsyncStorage
 } from 'react-native';
 import setStyles from '../style';
+import Button from '../components/common/button';
 
 const ACCESS_TOKEN = 'access_token';
 
@@ -39,7 +40,7 @@ class UserSummary extends Component {
       });
       let res = await response.json();
       console.log("res is: ", res);
-      this.setState({user: res.user, groups: res.groups[0]})
+      this.setState({user: res.user, groups: res.groups})
     } catch (error) {
       console.log("Something went wrong!", error);
     }
@@ -50,21 +51,51 @@ class UserSummary extends Component {
     try {
       let token = await AsyncStorage.getItem(ACCESS_TOKEN);
       this.fetchUserDetails(token);
-      console.log("token isss: " + token);
+      console.log("token is: " + token);
     } catch (error) {
       console.log("something went wrong");
     }
     token
   }
 
+  onLogoutPress() {
+    this.deleteToken();
+  }
+
+  async deleteToken() {
+    try {
+      await AsyncStorage.removeItem(ACCESS_TOKEN)
+      this.props.navigator.immediatelyResetRouteStack([{ name: 'buttons' }])
+    } catch (error) {
+      console.log("Error: ", error);
+    }
+  }
+
+  groups() {
+    if (this.state.groups.length) {
+      return this.state.groups.map((group, index) => {
+        return (
+          <View key={index}>
+            <Text>
+              {group.group_name}
+            </Text>
+          </View>
+        );
+      })
+    }
+  }
+
+
   render() {
     return (
       <View style={styles.container}>
         <View style={styles.profile}>
           <Text>Email: {this.state.user.email}</Text>
+          <Button text={'Logout'} onPress={this.onLogoutPress.bind(this)} />
         </View>
         <View style={styles.groups}>
-          <Text>Group: {this.state.groups.group_name}</Text>
+
+          {this.groups()}
         </View>
         <View style={styles.events}>
           <Text>This is the Events Secion</Text>

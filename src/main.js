@@ -10,8 +10,10 @@ import Register from './components/authentication/register';
 import Login from './components/authentication/login';
 import Users from './main/users';
 import UserSummary from './main/user_summary';
+import LoadingPage from './main/loading_page';
 
 const routes = {
+  loading: LoadingPage,
   buttons: authButtons,
   register: Register,
   login: Login,
@@ -30,7 +32,7 @@ class Main extends Component {
     return (
       <Navigator
       style={styles.container}
-      initialRoute={{ name: 'buttons' }}
+      initialRoute={{ name: 'loading' }}
       renderScene={this.renderScene}
       configureScene={() => { return Navigator.SceneConfigs.FloatFromRight; }}
       />
