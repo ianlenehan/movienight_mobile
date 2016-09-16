@@ -15,7 +15,7 @@ class UserSummary extends Component {
     super(props)
     this.state = {
       user: '',
-      groups: '',
+      groups: [],
       events: ''
     }
   }
@@ -39,7 +39,7 @@ class UserSummary extends Component {
         })
       });
       let res = await response.json();
-      console.log("res is: ", res);
+      console.log("res is: ", res.groups);
       this.setState({user: res.user, groups: res.groups})
     } catch (error) {
       console.log("Something went wrong!", error);
@@ -72,7 +72,6 @@ class UserSummary extends Component {
   }
 
   groups() {
-    if (this.state.groups.length) {
       return this.state.groups.map((group, index) => {
         return (
           <View key={index}>
@@ -82,7 +81,13 @@ class UserSummary extends Component {
           </View>
         );
       })
-    }
+  }
+
+  findGroups() {
+    this.props.navigator.push({
+      name: 'groups',
+      passProps: { navigator: navigator }
+    });
   }
 
 
@@ -94,8 +99,9 @@ class UserSummary extends Component {
           <Button text={'Logout'} onPress={this.onLogoutPress.bind(this)} />
         </View>
         <View style={styles.groups}>
-
+          <Text>Groups:</Text>
           {this.groups()}
+          <Button text={'Find Groups'} onPress={this.findGroups.bind(this)} />
         </View>
         <View style={styles.events}>
           <Text>This is the Events Secion</Text>

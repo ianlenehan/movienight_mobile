@@ -11,6 +11,7 @@ import Login from './components/authentication/login';
 import Users from './main/users';
 import UserSummary from './main/user_summary';
 import LoadingPage from './main/loading_page';
+import Groups from './main/groups';
 
 const routes = {
   loading: LoadingPage,
@@ -18,14 +19,15 @@ const routes = {
   register: Register,
   login: Login,
   users: Users,
-  userSummary: UserSummary
+  userSummary: UserSummary,
+  groups: Groups
 }
 
 
 class Main extends Component {
   renderScene(route, navigator) {
     let Component = routes[route.name];
-    return <Component route={route} navigator={navigator} />;
+    return <Component {...route.passProps} route={route} navigator={navigator} />;
   }
 
   render() {
