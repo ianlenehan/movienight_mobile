@@ -12,6 +12,8 @@ import Users from './main/users';
 import UserSummary from './main/user_summary';
 import LoadingPage from './main/loading_page';
 import Groups from './main/groups';
+import Group from './main/group';
+import CreateGroup from './main/createGroup';
 
 const routes = {
   loading: LoadingPage,
@@ -20,7 +22,9 @@ const routes = {
   login: Login,
   users: Users,
   userSummary: UserSummary,
-  groups: Groups
+  groups: Groups,
+  group: Group,
+  createGroup: CreateGroup
 }
 
 

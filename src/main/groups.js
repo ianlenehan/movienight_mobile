@@ -10,6 +10,9 @@ import {
 } from 'react-native';
 import Button from '../components/common/button';
 import Search from '../components/common/search';
+import H1 from '../components/common/H1';
+import H2 from '../components/common/H2';
+import HR from '../components/common/HR';
 import setStyles from '../style';
 
 class Groups extends Component {
@@ -17,6 +20,7 @@ class Groups extends Component {
     super(props)
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.state = {
+      user: '',
       groups: [{}, {}],
       dataSource: ds.cloneWithRows(["", ""]),
       searchText: ''
@@ -44,21 +48,37 @@ class Groups extends Component {
     }
   }
 
-  setDataSource(res) {
-    let names = this.getGroupNames(res);
+  setDataSource(groups) {
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-    this.setState({ groups: res, dataSource: ds.cloneWithRows(names) })
+    this.setState({
+      groups: groups,
+      dataSource: ds.cloneWithRows(groups),
+      user: this.props.user
+    })
   }
 
   renderRow(rowData, sectionID, rowID) {
     return (
-      <TouchableHighlight underlayColor='gray' style={{height: 44}}>
+      <TouchableHighlight underlayColor='gray' style={{height: 44}}
+      onPress={() => this.selectGroup(rowData)}
+      >
         <View>
-          <Text style={{fontSize: 20, color: 'black'}} numberOfLines={1}>{rowData}</Text>
-          <View style={{height: 1, backgroundColor: '#dddddd'}}/>
+          <H1 numberOfLines={1} text={rowData.group_name} />
+          <HR />
         </View>
       </TouchableHighlight>
     );
+  }
+
+  selectGroup(group) {
+    console.log("Group pressed: ", group);
+    this.props.navigator.push({
+      name: 'group',
+      passProps: {
+        group: group,
+        user: this.state.user
+      }
+    });
   }
 
   getGroupNames(groups) {
@@ -93,7 +113,9 @@ class Groups extends Component {
   render() {
     return (
       <View style={styles.container}>
-
+        <View style={{alignItems: 'center'}}>
+          <H2 text={'Find a Group'} />
+        </View>
         <ListView dataSource={this.state.dataSource} renderRow={this.renderRow.bind(this)}
         renderHeader={() => <TextInput
           style={styles.search}
@@ -109,7 +131,8 @@ class Groups extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 25
+    paddingTop: 25,
+    paddingHorizontal: 10
   },
   search: {
     height: 30,

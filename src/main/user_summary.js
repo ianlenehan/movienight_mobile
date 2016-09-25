@@ -3,6 +3,7 @@ import {
   View,
   Text,
   StyleSheet,
+  Image,
   AsyncStorage
 } from 'react-native';
 import setStyles from '../style';
@@ -86,7 +87,14 @@ class UserSummary extends Component {
   findGroups() {
     this.props.navigator.push({
       name: 'groups',
-      passProps: { navigator: navigator }
+      passProps: { user: this.state.user }
+    });
+  }
+
+  createGroup() {
+    this.props.navigator.push({
+      name: 'createGroup',
+      passProps: { user: this.state.user }
     });
   }
 
@@ -95,16 +103,18 @@ class UserSummary extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.profile}>
+          <Image style={styles.photo} source={require('../img/Ian.png')} />
           <Text>Email: {this.state.user.email}</Text>
-          <Button text={'Logout'} onPress={this.onLogoutPress.bind(this)} />
         </View>
         <View style={styles.groups}>
           <Text>Groups:</Text>
           {this.groups()}
           <Button text={'Find Groups'} onPress={this.findGroups.bind(this)} />
+          <Button text={'Create Group'} onPress={this.createGroup.bind(this)} />
         </View>
         <View style={styles.events}>
           <Text>This is the Events Secion</Text>
+          <Button text={'Logout'} onPress={this.onLogoutPress.bind(this)} />
         </View>
       </View>
     );
@@ -117,7 +127,8 @@ const styles = StyleSheet.create({
   container: setStyles.container,
   profile: {
     flex: 1,
-    justifyContent: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center'
   },
   groups: {
@@ -129,5 +140,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  photo: {
+    width: 50,
+    height: 50,
+    borderRadius: 10
   }
 });
