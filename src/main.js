@@ -14,6 +14,10 @@ import LoadingPage from './main/loading_page';
 import Groups from './main/groups';
 import Group from './main/group';
 import CreateGroup from './main/createGroup';
+import NewEvent from './main/newEvent';
+import EventDetails from './main/eventDetails';
+import SearchMovie from './main/searchMovie';
+import MovieDetails from './main/movieDetails';
 
 const routes = {
   loading: LoadingPage,
@@ -24,7 +28,11 @@ const routes = {
   userSummary: UserSummary,
   groups: Groups,
   group: Group,
-  createGroup: CreateGroup
+  createGroup: CreateGroup,
+  newEvent: NewEvent,
+  eventDetails: EventDetails,
+  searchMovie: SearchMovie,
+  movieDetails: MovieDetails
 }
 
 

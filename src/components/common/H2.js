@@ -7,7 +7,7 @@ class H2 extends Component {
   render() {
     return (
       <Text
-        style={{ fontSize: 18, paddingVertical: 10 }}>
+        style={{ fontSize: 18, paddingVertical: 5 }}>
         {this.props.text}
       </Text>
     );

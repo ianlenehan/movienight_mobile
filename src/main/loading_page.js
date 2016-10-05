@@ -42,6 +42,7 @@ class LoadingPage extends Component {
       }
     } catch(error) {
       console.log("error response: " + error);
+      this.props.navigator.immediatelyResetRouteStack([{ name: 'login' }])
     }
   }
 

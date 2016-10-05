@@ -8,7 +8,9 @@ import {
 import setStyles from '../style';
 import Button from '../components/common/button';
 import H1 from '../components/common/H1';
+import BackButton from '../components/common/backButton';
 import GroupDetail from './groupDetail';
+import ENV from '../environment';
 
 class Group extends Component {
   constructor(props) {
@@ -29,7 +31,7 @@ class Group extends Component {
   async getGroupMembers() {
     try {
       let groupID = this.props.group.id
-      let response = await fetch('http://localhost:3000/api/v1/groups/' + groupID + '/members', {
+      let response = await fetch(ENV.API + 'groups/' + groupID + '/members', {
         method: 'GET',
       });
       let members = await response.json();
@@ -42,7 +44,12 @@ class Group extends Component {
   checkIsAMember() {
     for (var i = 0; i < this.state.groupMembers.length; i++) {
       if (this.state.groupMembers[i].email === this.state.user.email) {
-        return <GroupDetail user={this.state.user} groupMembers={this.state.groupMembers} />
+        return <GroupDetail
+          user={this.state.user}
+          groupMembers={this.state.groupMembers}
+          group={this.props.group}
+          navigator={this.props.navigator}
+        />
       }
     }
     return this.isNotAMember();
@@ -79,13 +86,15 @@ class Group extends Component {
     }
   }
 
-
+  back() {
+    this.props.navigator.pop();
+  }
 
   render() {
     return (
       <View style={setStyles.container}>
         <View style={styles.header}>
-          <H1 text={this.props.group.group_name} />
+          <BackButton onPress={this.back.bind(this)} text={this.props.group.group_name}/>
         </View>
         <View style={styles.body}>
           {this.checkIsAMember()}
@@ -97,7 +106,11 @@ class Group extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    alignItems: 'stretch',
+    justifyContent: 'center',
+    paddingTop: 25,
+    paddingBottom: 15
   },
   header: {
     flex: 1,
@@ -105,9 +118,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   body: {
-    flex: 4,
-    alignItems: 'center',
-    justifyContent: 'center'
+    flex: 10,
+    marginTop: 5,
+    marginBottom: 5
   }
 });
 

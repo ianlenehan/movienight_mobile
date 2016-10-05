@@ -4,7 +4,7 @@ import {
   StyleSheet,
   TouchableHighlight
 } from 'react-native';
-import setStyles from '../../style.js'
+import setStyles from '../../style'
 
 class Button extends Component {
   render() {
@@ -27,17 +27,19 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 1,
-    borderRadius: 5,
+    borderRadius: 3,
     padding: 8,
-    borderColor: 'black',
-    marginTop: 10,
-    width: 150,
-    backgroundColor: setStyles.secondaryColor
+    borderColor: setStyles.primaryColor,
+    margin: 5,
+    width: 120,
+    height: 35,
+    backgroundColor: setStyles.primaryColor
   },
   buttonText: {
     flex: 1,
     alignSelf: 'center',
-    fontSize: 14
+    fontSize: 14,
+    // color: 'white'
   }
 });
 

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {
   Text,
   TextInput,
+  Image,
   View,
   StyleSheet,
   AsyncStorage,
@@ -17,68 +18,75 @@ import HR from '../components/common/HR';
 import setStyles from '../style';
 import ENV from '../environment';
 
-class Groups extends Component {
+class SearchMovie extends Component {
   constructor(props) {
     super(props)
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.state = {
-      user: '',
-      groups: [{}, {}],
+      movie: '',
+      results: [{}, {}],
       dataSource: ds.cloneWithRows(["", ""]),
       searchText: ''
     }
   }
 
-  componentWillMount() {
-    this.fetchGroups()
+  fixSearchString(string) {
+    title = string.split(' ').join('+');
+    return title;
   }
 
-  async fetchGroups() {
+  async searchOMDB() {
+    let title = this.fixSearchString(this.state.searchText);
+    let url = 'https://www.omdbapi.com/?s=' + title + '&r=json';
+    console.log(url);
     try {
-      let response = await fetch(ENV.API + 'groups', {
-        method: 'GET',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
+      let response = await fetch(url, {
+        method: 'GET'
       });
       let res = await response.json();
-      this.setDataSource(res);
-    }
-    catch(error) {
-      console.log("There was an error: ", error);
+      console.log("res is: ", res);
+      this.setDataSource(res["Search"]);
+    } catch (error) {
+      console.log("Something went wrong!", error);
     }
   }
 
-  setDataSource(groups) {
+  setDataSource(results) {
+    console.log("setting data source", results);
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.setState({
-      groups: groups,
-      dataSource: ds.cloneWithRows(groups),
-      user: this.props.user
+      results: results,
+      dataSource: ds.cloneWithRows(results)
     })
   }
 
+  fixUrl(url) {
+    if (url) {
+      let splitUrl = url.split('://');
+      return 'https://' + splitUrl[1];
+    }
+  }
+
   renderRow(rowData, sectionID, rowID) {
+    let url = this.fixUrl(rowData["Poster"]);
     return (
-      <TouchableHighlight underlayColor='gray' style={{height: 44}}
-      onPress={() => this.selectGroup(rowData)}
+      <View style={styles.searchResults}>
+      <Image style={styles.thumb} resizeMode='contain' source={{url}} />
+      <TouchableHighlight underlayColor='grey' style={styles.touch}
+      onPress={() => this.selectMovie(rowData)}
       >
-        <View>
-          <H1 numberOfLines={1} text={rowData.group_name} />
-          <HR />
-        </View>
+        <Text numberOfLines={1} style={styles.title}>{rowData["Title"]}</Text>
       </TouchableHighlight>
+      </View>
     );
   }
 
-  selectGroup(group) {
-    console.log("Group pressed: ", group);
+  selectMovie(movie) {
+    console.log("Movie pressed: ", movie["Title"], movie["imdbID"]);
     this.props.navigator.push({
-      name: 'group',
+      name: 'movieDetails',
       passProps: {
-        group: group,
-        user: this.state.user
+        movie: movie
       }
     });
   }
@@ -93,7 +101,7 @@ class Groups extends Component {
     }
   }
 
-  groupSearch(text) {
+  movieSearch(text) {
     this.setState({ searchText: text })
     console.log("Text:", text);
     let groups = this.state.groups;
@@ -121,14 +129,18 @@ class Groups extends Component {
 
         <View style={styles.body}>
           <ListView dataSource={this.state.dataSource} renderRow={this.renderRow.bind(this)}
-          renderHeader={() => <TextInput
+          renderHeader={() =>
+            <TextInput
             style={styles.search}
             placeholder="Search..."
             value={this.state.searchText}
-            onChangeText={(text) => this.groupSearch(text)}/>}
+            onChangeText={(text) => this.setState({searchText: text})}/>
+          }
           />
+          <View style={{alignItems: 'center'}}>
+            <Button text={'Search'} onPress={this.searchOMDB.bind(this)} />
+          </View>
         </View>
-
       </View>
     );
   }
@@ -147,6 +159,7 @@ const styles = StyleSheet.create({
     height: 30,
     flex: 1,
     paddingHorizontal: 8,
+    marginBottom: 8,
     fontSize: 15,
     backgroundColor: '#FFFFFF',
     borderRadius: 2,
@@ -160,7 +173,27 @@ const styles = StyleSheet.create({
     flex: 10,
     marginBottom: 15,
     marginHorizontal: 10
+  },
+  searchResults: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    paddingVertical: 2
+  },
+  thumb: {
+    height: 44,
+    width: 30,
+    marginRight: 5,
+    flex: 1,
+    justifyContent: 'flex-start'
+  },
+  title: {
+    fontSize: 20,
+    justifyContent: 'center'
+  },
+  touch: {
+    height: 45,
+    flex: 14
   }
 });
 
-module.exports = Groups;
+module.exports = SearchMovie;

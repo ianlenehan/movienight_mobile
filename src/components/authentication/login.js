@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import Button from '../common/button';
 import setStyles from '../../style';
+import ENV from '../../environment';
 
 const ACCESS_TOKEN = 'access_token'
 
@@ -52,7 +53,7 @@ class Login extends Component {
 
   async onPressLogin() {
     try {
-      let response = await fetch('http://localhost:3000/api/v1/login', {
+      let response = await fetch(ENV.API + 'login', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -130,17 +131,7 @@ const styles = StyleSheet.create({
   },
   header: setStyles.container,
   footer: setStyles.container,
-  input: {
-    height: 50,
-    marginTop: 10,
-    marginBottom: 10,
-    padding: 4,
-    fontSize: 18,
-    borderWidth: 1,
-    borderColor: setStyles.secondaryColor,
-    borderRadius: 5,
-    backgroundColor: 'white'
-  }
+  input: setStyles.input,
 })
 
 module.exports = Login;
