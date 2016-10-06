@@ -72,7 +72,7 @@ class SearchMovie extends Component {
     return (
       <View style={styles.searchResults}>
       <Image style={styles.thumb} resizeMode='contain' source={{url}} />
-      <TouchableHighlight underlayColor='grey' style={styles.touch}
+      <TouchableHighlight underlayColor='transparent' style={styles.touch}
       onPress={() => this.selectMovie(rowData)}
       >
         <Text numberOfLines={1} style={styles.title}>{rowData["Title"]}</Text>
@@ -86,7 +86,8 @@ class SearchMovie extends Component {
     this.props.navigator.push({
       name: 'movieDetails',
       passProps: {
-        movie: movie
+        movie: movie,
+        eventID: this.props.eventID
       }
     });
   }

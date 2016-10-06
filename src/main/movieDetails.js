@@ -10,12 +10,14 @@ import Button from '../components/common/button';
 import BackButton from '../components/common/backButton';
 import H1 from '../components/common/H1';
 import setStyles from '../style';
+import ENV from '../environment';
 
 class MovieDetails extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      movie: {}
+      movie: {},
+      showButton: true
     }
   }
 
@@ -32,7 +34,7 @@ class MovieDetails extends Component {
         method: 'GET'
       });
       let res = await response.json();
-      console.log("res is: ", res);
+      this.setState({ movie: res })
     } catch (error) {
       console.log("Something went wrong!", error);
     }
@@ -43,25 +45,76 @@ class MovieDetails extends Component {
   }
 
   onPressAddMovie() {
-    this.props.navigator.push({ name: '' });
   }
 
   fixUrl(url) {
-    let splitUrl = url.split('://');
-    return 'https://' + splitUrl[1];
+    if (url) {
+      let splitUrl = url.split('://');
+      return 'https://' + splitUrl[1];
+    }
+  }
+
+  async addToEvent() {
+    let imdbID = this.props.movie["imdbID"];
+    let eventID = this.props.eventID;
+    try {
+      let response = await fetch(ENV.API + 'events/add_movie', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          event_id: this.props.eventID,
+          movie: this.props.movie["imdbID"]
+        })
+      });
+      let eventDetails = await response.json();
+      console.log("event update: ", eventDetails);
+      this.props.navigator.popN(2);
+    } catch(error) {
+      console.log("error: ", error);
+    }
+  }
+
+  renderButton() {
+    if (this.state.showButton) {
+      return (
+        <View style={styles.button}>
+          <Button text={'Add to Event'} onPress={this.addToEvent.bind(this)} />
+        </View>
+      )
+    }
   }
 
   render() {
-    const { movie } = this.props;
+    const { movie } = this.state;
     let url = this.fixUrl(movie["Poster"]);
     return (
       <View style={styles.container}>
-        <H1 text={movie["Title"]} />
-        <Image
-          style={styles.image}
-          source={{uri: url}}
-          resizeMode='contain'
-        />
+        <View style={styles.header}>
+          <BackButton text={'Movie Details'} onPress={this.back.bind(this)} />
+        </View>
+
+        <View style={styles.body}>
+
+          <View style={styles.main}>
+            <H1 text={' ' + movie["Title"] + ' (' + movie["Year"] + ')'} />
+            <Image
+              style={styles.image}
+              source={{uri: url}}
+              resizeMode='contain'
+            />
+          </View>
+
+          <View style={styles.details}>
+            <Text style={styles.detail}>Director: {movie["Director"]}</Text>
+            <Text style={styles.detail}>Runtime: {movie["Runtime"]}</Text>
+            <Text style={styles.detail}>Actors: {movie["Actors"]}</Text>
+            <Text style={styles.detail}>Plot: {movie["Plot"]}</Text>
+          </View>
+          {this.renderButton()}
+        </View>
       </View>
     );
   }
@@ -89,6 +142,18 @@ const styles = StyleSheet.create({
   image: {
     width: 200,
     height: 300
+  },
+  main: {
+    flex: 5,
+    alignItems: 'center'
+  },
+  details: {
+    flex: 2,
+    marginTop: 5
+  },
+  button: {
+    alignItems: 'center',
+    marginTop: 10
   }
 });
 

@@ -39,7 +39,6 @@ class NewEvent extends Component {
       let eventDetails = await response.json();
       this.viewEvent(eventDetails);
       console.log("event is: ", eventDetails);
-
     } catch(errors) {
       console.log("Error: ", errors);
     }

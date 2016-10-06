@@ -113,7 +113,7 @@ class UserSummary extends Component {
     this.props.navigator.push({
       name: 'eventDetails',
       passProps: {
-        eventDetails: event,
+        eventID: event.id,
         user: this.state.user
       }
     });
