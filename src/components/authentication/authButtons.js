@@ -7,6 +7,7 @@ import {
   AsyncStorage
 } from 'react-native';
 import Button from '../common/button';
+import setStyles from '../../style';
 
 const ACCESS_TOKEN = 'access_token';
 
@@ -14,14 +15,17 @@ class authButtons extends Component {
   render() {
     return (
       <View style={[styles.container, styles.center]}>
+        <View style={styles.body}>
         <View style={[styles.header, styles.center]}>
-          <Text style={styles.logo}>MovieNight</Text>
+          <Text style={styles.logo1}>Movie</Text>
+          <Text style={styles.logo2}>night</Text>
         </View>
         <Button text={'Sign In'} onPress={this.onSigninPress.bind(this)} />
-        <Button text={'Sign Up'} onPress={this.onSignupPress.bind(this)} />
+        <Button text={'Register'} onPress={this.onSignupPress.bind(this)} />
         <View style={[styles.footer, styles.center]}>
-          <Text>Please log in or create an account.</Text>
+          <Text>Please sign in or create an account.</Text>
         </View>
+      </View>
       </View>
     );
   }
@@ -38,22 +42,31 @@ class authButtons extends Component {
 const styles = StyleSheet.create({
   center: {
     justifyContent: 'center',
+  },
+  container: setStyles.container,
+  header: {
+    flex: 1,
+    flexDirection: 'row',
     alignItems: 'center'
   },
-  container: {
-    flex: 1
-  },
-  header: {
-    flex: 1
-  },
   body: {
-    flex: 5
+    flex: 1,
+    marginTop: 25,
+    alignItems: 'center',
+    margin: 10,
+    padding: 5,
+    backgroundColor: setStyles.secondaryColor
   },
   footer: {
     flex: 1
   },
-  logo: {
-    fontSize: 18
+  logo1: {
+    fontSize: 42,
+    fontFamily: 'Anton'
+  },
+  logo2: {
+    fontSize: 38,
+    fontFamily: 'Pacifico'
   }
 })
 

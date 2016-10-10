@@ -90,26 +90,29 @@ class Login extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <View style={styles.header}>
-          <Text>MovieNight</Text>
-        </View>
+        <View style={styles.body}>
+          <View style={styles.header}>
+            <Text style={styles.logo1}>Movie</Text>
+            <Text style={styles.logo2}>night</Text>
+          </View>
 
-        <View style={styles.middle}>
-          <TextInput
-          onChangeText={(val) => {this.setState({ email: val })}}
-          style={styles.input} placeholder="Email"
-          autoCorrect={false}
-          autoCapitalize={'none'}
-          />
-          <TextInput
-          onChangeText={(val) => {this.setState({ password: val })}}
-          style={styles.input} placeholder="Password"
-          secureTextEntry={true}
-          />
-          <Button text={'Log In'} onPress={this.onPressLogin.bind(this)} />
-        </View>
+          <View style={styles.middle}>
+            <TextInput
+            onChangeText={(val) => {this.setState({ email: val })}}
+            style={styles.input} placeholder="Email"
+            autoCorrect={false}
+            autoCapitalize={'none'}
+            />
+            <TextInput
+            onChangeText={(val) => {this.setState({ password: val })}}
+            style={styles.input} placeholder="Password"
+            secureTextEntry={true}
+            />
+            <Button text={'Log In'} onPress={this.onPressLogin.bind(this)} />
+          </View>
 
-        <View style={styles.footer}></View>
+          <View style={styles.footer}></View>
+        </View>
       </View>
 
     );
@@ -117,21 +120,38 @@ class Login extends Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center'
+  container: setStyles.container,
+  body: {
+    flex: 10,
+    marginTop: 25,
+    margin: 10,
+    padding: 5,
+    backgroundColor: setStyles.secondaryColor
   },
   middle: {
     flex: 4,
-    backgroundColor: setStyles.backgroundColor,
     justifyContent: 'flex-start',
     padding: 10,
     alignItems: 'center',
     justifyContent: 'center'
   },
-  header: setStyles.container,
+  module: setStyles.module,
+  header: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
   footer: setStyles.container,
   input: setStyles.input,
+  logo1: {
+    fontSize: 42,
+    fontFamily: 'Anton'
+  },
+  logo2: {
+    fontSize: 38,
+    fontFamily: 'Pacifico'
+  }
 })
 
 module.exports = Login;

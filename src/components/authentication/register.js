@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
 import Button from '../common/button';
+import H1 from '../common/H1';
 import setStyles from '../../style';
 
 class Register extends Component {
@@ -19,19 +20,18 @@ class Register extends Component {
       email: '',
       password: '',
       password_confirmation: '',
-      errors: []
+      errors: [],
+      avatarSource: ''
     }
   }
 
   imagePicker() {
-    var options = {
-      title: 'Select Profile Image',
-      customButtons: [
-        {name: 'fb', title: 'Choose Photo from Facebook'},
-      ],
+    const options = {
+      quality: 1.0,
+      maxWidth: 500,
+      maxHeight: 500,
       storageOptions: {
-        skipBackup: true,
-        path: 'images'
+        skipBackup: true
       }
     };
 
@@ -39,7 +39,7 @@ class Register extends Component {
       console.log('Response = ', response);
 
       if (response.didCancel) {
-        console.log('User cancelled image picker');
+        console.log('User cancelled photo picker');
       }
       else if (response.error) {
         console.log('ImagePicker Error: ', response.error);
@@ -48,14 +48,16 @@ class Register extends Component {
         console.log('User tapped custom button: ', response.customButton);
       }
       else {
-        // You can display the image using either data...
-        const source = {uri: 'data:image/jpeg;base64,' + response.data, isStatic: true};
+        var source;
 
-        // or a reference to the platform specific asset location
-        if (Platform.OS === 'ios') {
-          const source = {uri: response.uri.replace('file://', ''), isStatic: true};
+        // You can display the image using either:
+        //source = {uri: 'data:image/jpeg;base64,' + response.data, isStatic: true};
+
+        //Or:
+        if (Platform.OS === 'android') {
+          source = {uri: response.uri, isStatic: true};
         } else {
-          const source = {uri: response.uri, isStatic: true};
+          source = {uri: response.uri.replace('file://', ''), isStatic: true};
         }
 
         this.setState({
@@ -95,6 +97,10 @@ class Register extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.body}>
+          <View style={{alignItems: 'center'}}>
+            <H1 text={'New Account'} />
+          </View>
+          
           <TextInput
           onChangeText={(val) => {this.setState({ email: val })}}
           style={styles.input} placeholder="Email"
