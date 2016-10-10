@@ -9,8 +9,7 @@ import {
 } from 'react-native';
 import setStyles from '../style';
 import Button from '../components/common/button';
-import H1 from '../components/common/H1';
-import H2 from '../components/common/H2';
+import H3 from '../components/common/H3';
 import ENV from '../environment';
 import strftime from 'strftime';
 
@@ -72,6 +71,25 @@ class UserSummary extends Component {
     this.deleteToken();
   }
 
+  imagePicker() {
+    ImagePickerIOS.openSelectDialog({},(assetUri)=>{
+      var photo = {
+        uri: assetUri,
+        type: 'image/jpeg',
+        name: 'main.jpg'
+      }
+
+      console.log(photo);
+
+      // var body = new FormData();
+      // body.append('file', photo);
+      //
+      // fetch(presignedUrl, {
+      //   method: 'put', body: body
+      // });
+    },()=>{ console.log('failed'); })
+  }
+
   async deleteToken() {
     try {
       await AsyncStorage.removeItem(ACCESS_TOKEN)
@@ -95,17 +113,42 @@ class UserSummary extends Component {
   }
 
   renderEvents() {
+    this.state.events.splice(5);
     return this.state.events.map((event, index) => {
+      let location = this.trimName(event.location);
+      let group = this.getEventGroup(event);
       let date = new Date(Date.parse(event.date));
       return (
         <TouchableHighlight
           onPress={() => this.selectEvent(event)}
           key={index}
           underlayColor="grey">
-          <Text>{event.location} {strftime('%a %b %d', date)}</Text>
+          <View style={styles.eventDetails}>
+            <Text style={{flex: 3.7}}>{strftime('%a %b %d', date)}</Text>
+            <Text style={{flex: 5}}>{group}</Text>
+            <Text style={{flex: 5}}>{location}</Text>
+          </View>
         </TouchableHighlight>
       );
     })
+  }
+
+  getEventGroup(event) {
+    let g = this.state.groups;
+    for (var i = 0; i < g.length; i++) {
+      if (g[i].id === event.group_id) {
+        return this.trimName(g[i].group_name);
+      }
+    }
+    return "Unknown Group";
+  }
+
+  trimName(name) {
+    if (name.length > 12) {
+      return name.substring(0,12) + '...'
+    } else {
+      return name;
+    }
   }
 
   selectEvent(event) {
@@ -152,14 +195,15 @@ class UserSummary extends Component {
           <Image style={styles.photo} source={require('../img/Ian.png')} />
           <Text style={styles.name}>{user.name_first} {user.name_last}</Text>
         </View>
+        <H3 text={'My Groups'} />
         <View style={[styles.groups, styles.module]}>
-          <Text>My Groups</Text>
           {this.renderGroups()}
           <View style={styles.buttonView}>
             <Button text={'Find Groups'} onPress={this.findGroups.bind(this)} />
             <Button text={'Create Group'} onPress={this.createGroup.bind(this)} />
           </View>
         </View>
+        <H3 text={'Latest Events'} />
         <View style={[styles.events, styles.module]}>
           {this.renderEvents()}
         </View>
@@ -181,22 +225,27 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingTop: 25,
     paddingBottom: 15,
-    paddingHorizontal: 10
+    paddingHorizontal: 5
   },
   module: setStyles.module,
   profile: {
     flex: 1,
     justifyContent: 'space-around',
+    alignItems: 'center'
   },
   groups: {
     flex: 1.5,
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     alignItems: 'center'
   },
   events: {
-    flex: 1.5,
-    justifyContent: 'center',
-    alignItems: 'center'
+    flex: 1,
+    justifyContent: 'center'
+  },
+  eventDetails: {
+    flex: 1,
+    flexDirection: 'row',
+    paddingBottom: 5
   },
   userButtons: {
     flex: 0.5,

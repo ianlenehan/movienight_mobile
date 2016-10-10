@@ -125,7 +125,7 @@ class SearchMovie extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.header}>
-          <BackButton text={'Search Groups'} onPress={this.back.bind(this)} />
+          <BackButton text={'Search Movies'} onPress={this.back.bind(this)} />
         </View>
 
         <View style={styles.body}>
@@ -148,14 +148,8 @@ class SearchMovie extends Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  },
-  header: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
+  container: setStyles.container,
+  header: setStyles.header,
   search: {
     height: 30,
     flex: 1,
@@ -169,11 +163,9 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: '#FFD98C',
     borderRadius: 5,
-    margin: 5,
+    margin: 10,
     marginTop: 15,
-    flex: 10,
-    marginBottom: 15,
-    marginHorizontal: 10
+    flex: 10
   },
   searchResults: {
     flexDirection: 'row',

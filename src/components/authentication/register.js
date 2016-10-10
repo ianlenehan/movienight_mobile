@@ -4,8 +4,10 @@ import {
   StyleSheet,
   TextInput,
   TouchableHighlight,
+  Platform,
   View
 } from 'react-native';
+import ImagePicker from 'react-native-image-picker';
 import Button from '../common/button';
 import setStyles from '../../style';
 
@@ -19,6 +21,48 @@ class Register extends Component {
       password_confirmation: '',
       errors: []
     }
+  }
+
+  imagePicker() {
+    var options = {
+      title: 'Select Profile Image',
+      customButtons: [
+        {name: 'fb', title: 'Choose Photo from Facebook'},
+      ],
+      storageOptions: {
+        skipBackup: true,
+        path: 'images'
+      }
+    };
+
+    ImagePicker.showImagePicker(options, (response) => {
+      console.log('Response = ', response);
+
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      }
+      else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      }
+      else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+      }
+      else {
+        // You can display the image using either data...
+        const source = {uri: 'data:image/jpeg;base64,' + response.data, isStatic: true};
+
+        // or a reference to the platform specific asset location
+        if (Platform.OS === 'ios') {
+          const source = {uri: response.uri.replace('file://', ''), isStatic: true};
+        } else {
+          const source = {uri: response.uri, isStatic: true};
+        }
+
+        this.setState({
+          avatarSource: source
+        });
+      }
+    });
   }
 
   async onPressSignin() {
@@ -50,48 +94,48 @@ class Register extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <TextInput
-        onChangeText={(val) => {this.setState({ email: val })}}
-        style={styles.input} placeholder="Email"
-        autoCorrect={false}
-        autoCapitalize={'none'}
-        />
-        <TextInput
-        onChangeText={(val) => {this.setState({ name: val })}}
-        style={styles.input} placeholder="Name"
-        autoCorrect={false}
-        />
-        <TextInput
-        onChangeText={(val) => {this.setState({ password: val })}}
-        style={styles.input} placeholder="Password"
-        secureTextEntry={true}
-        />
-        <TextInput
-        onChangeText={(val) => {this.setState({password_confirmation:val})}}
-        style={styles.input} placeholder="Password Comfirmation"
-        secureTextEntry={true}
-        />
-
-        <Button text={'Sign In'} onPress={this.onPressSignin.bind(this)} />
+        <View style={styles.body}>
+          <TextInput
+          onChangeText={(val) => {this.setState({ email: val })}}
+          style={styles.input} placeholder="Email"
+          autoCorrect={false}
+          autoCapitalize={'none'}
+          />
+          <TextInput
+          onChangeText={(val) => {this.setState({ name: val })}}
+          style={styles.input} placeholder="Name"
+          autoCorrect={false}
+          />
+          <TextInput
+          onChangeText={(val) => {this.setState({ password: val })}}
+          style={styles.input} placeholder="Password"
+          secureTextEntry={true}
+          />
+          <TextInput
+          onChangeText={(val) => {this.setState({password_confirmation:val})}}
+          style={styles.input} placeholder="Password Comfirmation"
+          secureTextEntry={true}
+          />
+          <View style={{alignItems: 'center'}}>
+            <Button text={'Add Image'} onPress={this.imagePicker.bind(this)} />
+            <Button text={'Sign Up'} onPress={this.onPressSignin.bind(this)} />
+          </View>
+        </View>
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: setStyles.backgroundColor,
-    justifyContent: 'flex-start'
+  container: setStyles.container,
+  body: {
+    flex: 10,
+    marginTop: 25,
+    margin: 10,
+    padding: 5,
+    backgroundColor: setStyles.secondaryColor
   },
-  input: {
-    height: 50,
-    marginTop: 10,
-    padding: 4,
-    fontSize: 18,
-    borderWidth: 1,
-    borderColor: '#48bbec'
-  }
+  input: setStyles.input
 })
 
 module.exports = Register;

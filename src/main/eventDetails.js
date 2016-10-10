@@ -9,9 +9,12 @@ import {
 import Button from '../components/common/button';
 import BackButton from '../components/common/backButton';
 import H1 from '../components/common/H1';
+import H2 from '../components/common/H2';
+import H3 from '../components/common/H3';
 import setStyles from '../style';
 import strftime from 'strftime';
 import ENV from '../environment';
+import GroupMembers from './groupMembers';
 
 const ACCESS_TOKEN = 'access_token';
 
@@ -23,6 +26,7 @@ class EventDetails extends Component {
       attendees: [],
       attending: false,
       movie: {},
+      groupName: '',
       token: ''
     }
   }
@@ -44,7 +48,6 @@ class EventDetails extends Component {
 
   async fetchEvent(token) {
     try {
-      let id = this.props.eventID;
       let response = await fetch(ENV.API + 'events/find', {
         method: 'POST',
         headers: {
@@ -56,14 +59,14 @@ class EventDetails extends Component {
             access_token: token
           },
           event: {
-            id: id
+            id: this.props.eventID
           }
         })
       });
       let res = await response.json();
-      console.log("new event: ", res);
       this.setState({
         event: res.event,
+        groupName: res.group.group_name,
         attendees: res.attendees,
         attending: res.attending
       });
@@ -74,7 +77,7 @@ class EventDetails extends Component {
   }
 
   async fetchMovie(imdbID) {
-    let url = 'https://www.omdbapi.com/?i=' + imdbID + '&plot=full&r=json';
+    let url = 'https://www.omdbapi.com/?i=' + imdbID + '&plot=short&r=json';
     try {
       let response = await fetch(url, {
         method: 'GET'
@@ -84,6 +87,12 @@ class EventDetails extends Component {
     } catch (error) {
       console.log("Something went wrong!", error);
     }
+  }
+
+  renderMembers() {
+    return this.state.attendees.map((member, index) => {
+      return <GroupMembers key={index} member={member} />
+    })
   }
 
   back() {
@@ -181,10 +190,12 @@ class EventDetails extends Component {
         </View>
 
         <View style={styles.body}>
-          <View style={styles.module}>
+          <View style={[styles.module, styles.top]}>
             <View style={{alignItems: 'center'}}>
               <H1 text={location} />
+              <H2 text={this.state.groupName} />
             </View>
+
             <View style={styles.details}>
               <View style={styles.detailHalf}>
                 <Text style={{fontWeight: 'bold'}}>When</Text>
@@ -196,19 +207,19 @@ class EventDetails extends Component {
                 {this.attendance()}
                 {this.renderButton()}
               </View>
+
               <View style={styles.imageHalf}>
                 <Image
                   source={{uri: poster}}
                   style={styles.image}
                   resizeMode='contain'
                   />
-
               </View>
             </View>
           </View>
-
+          <H3 text={'Attendees'} />
           <View style={[styles.module, styles.attendees]}>
-            <Text>Attending</Text>
+            {this.renderMembers()}
           </View>
         </View>
       </View>
@@ -217,27 +228,10 @@ class EventDetails extends Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'stretch',
-    justifyContent: 'center',
-    paddingBottom: 15
-  },
-  header: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  body: {
-    flex: 10,
-    margin: 10,
-  },
-  module: {
-    padding: 10,
-    marginBottom: 10,
-    backgroundColor: setStyles.secondaryColor,
-    borderRadius: 5
-  },
+  container: setStyles.container,
+  header: setStyles.header,
+  body: setStyles.body,
+  module: setStyles.module,
   details: {
     flex: 1.5,
     alignItems: 'center',
@@ -245,6 +239,9 @@ const styles = StyleSheet.create({
   },
   attendees: {
     flex: 1
+  },
+  top: {
+    flex: 2
   },
   image: {
     width: 200,

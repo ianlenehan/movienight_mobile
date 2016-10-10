@@ -18,6 +18,7 @@ import NewEvent from './main/newEvent';
 import EventDetails from './main/eventDetails';
 import SearchMovie from './main/searchMovie';
 import MovieDetails from './main/movieDetails';
+import ImagePicker from './main/imagePicker';
 
 const routes = {
   loading: LoadingPage,
@@ -32,7 +33,8 @@ const routes = {
   newEvent: NewEvent,
   eventDetails: EventDetails,
   searchMovie: SearchMovie,
-  movieDetails: MovieDetails
+  movieDetails: MovieDetails,
+  imagePicker: ImagePicker
 }
 
 

@@ -92,7 +92,7 @@ class Group extends Component {
 
   render() {
     return (
-      <View style={setStyles.container}>
+      <View style={styles.container}>
         <View style={styles.header}>
           <BackButton onPress={this.back.bind(this)} text={this.props.group.group_name}/>
         </View>
@@ -105,23 +105,9 @@ class Group extends Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'stretch',
-    justifyContent: 'center',
-    paddingTop: 25,
-    paddingBottom: 15
-  },
-  header: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  body: {
-    flex: 10,
-    marginTop: 5,
-    marginBottom: 5
-  }
+  container: setStyles.container,
+  header: setStyles.header,
+  body: setStyles.body
 });
 
 module.exports = Group;

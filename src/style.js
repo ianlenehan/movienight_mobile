@@ -4,11 +4,22 @@ const setStyles = {
   // secondaryColor: 'white',
   container: {
     flex: 1,
+    alignItems: 'stretch',
+    justifyContent: 'center',
+    paddingBottom: 15
+  },
+  body: {
+    flex: 10,
+    marginTop: 5,
+    marginBottom: 5,
+    paddingHorizontal: 5
+  },
+  header: {
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center'
   },
   module: {
-    alignItems: 'center',
     padding: 10,
     backgroundColor: '#FFD98C',
     borderRadius: 5,
