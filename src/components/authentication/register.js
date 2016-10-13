@@ -62,7 +62,9 @@ class Register extends Component {
             uri: source.uri,
             type: 'image/jpeg'
           },
-          upload_preset: 'bpus4mzg'
+          api_key: api_key,
+          timestamp: timestamp,
+          signature: signature
         })
       });
 
