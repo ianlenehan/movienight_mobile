@@ -14,7 +14,7 @@ import H1 from '../common/H1';
 import setStyles from '../../style';
 import UploadImage from '../common/uploadImage';
 import ENV from '../../environment';
-import CryptoJS from 'crypto-js';
+import * as CryptoJS from 'crypto-js';
 
 class Register extends Component {
   constructor() {
@@ -29,6 +29,18 @@ class Register extends Component {
     }
   }
 
+  // xpostToCloudinary(source) {
+  //   cloudinary.config({
+  //     cloud_name: ENV.cloudinary.cloud_name,
+  //     api_key: ENV.cloudinary.api,
+  //     api_secret: ENV.cloudinary.api_secret
+  //   });
+  //
+  //   cloudinary.uploader.upload(source.uri, function(result) {
+  //     console.log(result)
+  //   });
+  // }
+
   async postToCloudinary(source) {
     let timestamp = (Date.now() / 1000 | 0).toString();
     let api_key = ENV.cloudinary.api;
@@ -38,19 +50,23 @@ class Register extends Component {
     let signature = CryptoJS.SHA1(hash_string).toString();
     let upload_url = 'https://api.cloudinary.com/v1_1/' + cloud + '/image/upload'
 
-    console.log("Upload url: ", upload_url);
-
     try {
       let response = await fetch(upload_url, {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
-        }
+        },
+        body: JSON.stringify({
+          file: {
+            uri: source.uri,
+            type: 'image/jpeg'
+          },
+          upload_preset: 'bpus4mzg'
+        })
       });
 
       let res = await response.json();
-      debugger;
       console.log(res);
     } catch(error) {
       console.log("Error: ", error);
@@ -68,7 +84,6 @@ class Register extends Component {
     };
 
     ImagePicker.showImagePicker(options, (response) => {
-      console.log('Response = ', response);
 
       if (response.didCancel) {
         console.log('User cancelled photo picker');
