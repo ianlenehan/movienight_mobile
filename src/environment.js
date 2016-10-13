@@ -7,7 +7,8 @@ const ENV = {
   API: local,
   cloudinary: {
     cloud_name: 'ianlenehan',
-    API: '763857653399167'
+    api: '763857653399167',
+    api_secret: 'T6xVSQNJKp6P1AIHcgzf20nlfpI'
   }
 }
 

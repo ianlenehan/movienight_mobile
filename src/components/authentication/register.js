@@ -5,12 +5,16 @@ import {
   TextInput,
   TouchableHighlight,
   Platform,
+  AsyncStorage,
   View
 } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
 import Button from '../common/button';
 import H1 from '../common/H1';
 import setStyles from '../../style';
+import UploadImage from '../common/uploadImage';
+import ENV from '../../environment';
+import CryptoJS from 'crypto-js';
 
 class Register extends Component {
   constructor() {
@@ -22,6 +26,34 @@ class Register extends Component {
       password_confirmation: '',
       errors: [],
       avatarSource: ''
+    }
+  }
+
+  async postToCloudinary(source) {
+    let timestamp = (Date.now() / 1000 | 0).toString();
+    let api_key = ENV.cloudinary.api;
+    let api_secret = ENV.cloudinary.api_secret
+    let cloud = ENV.cloudinary.cloud_name;
+    let hash_string = 'timestamp=' + timestamp + api_secret
+    let signature = CryptoJS.SHA1(hash_string).toString();
+    let upload_url = 'https://api.cloudinary.com/v1_1/' + cloud + '/image/upload'
+
+    console.log("Upload url: ", upload_url);
+
+    try {
+      let response = await fetch(upload_url, {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        }
+      });
+
+      let res = await response.json();
+      debugger;
+      console.log(res);
+    } catch(error) {
+      console.log("Error: ", error);
     }
   }
 
@@ -59,6 +91,8 @@ class Register extends Component {
         } else {
           source = {uri: response.uri.replace('file://', ''), isStatic: true};
         }
+
+        this.postToCloudinary(source);
 
         this.setState({
           avatarSource: source
@@ -100,7 +134,7 @@ class Register extends Component {
           <View style={{alignItems: 'center'}}>
             <H1 text={'New Account'} />
           </View>
-          
+
           <TextInput
           onChangeText={(val) => {this.setState({ email: val })}}
           style={styles.input} placeholder="Email"
@@ -123,7 +157,7 @@ class Register extends Component {
           secureTextEntry={true}
           />
           <View style={{alignItems: 'center'}}>
-            <Button text={'Add Image'} onPress={this.imagePicker.bind(this)} />
+            <UploadImage imagePicker={this.imagePicker.bind(this)} />
             <Button text={'Sign Up'} onPress={this.onPressSignin.bind(this)} />
           </View>
         </View>

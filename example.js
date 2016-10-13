@@ -16,7 +16,7 @@ import {
 
 import { firebaseAuth, rootRef } from './auth/authentication';
 import ImagePicker from 'react-native-image-picker';
-import * as CryptoJS from 'crypto-js';
+import CryptoJS from 'crypto-js';
 
 export class myVideos extends Component {
 
