@@ -49,6 +49,8 @@ class Register extends Component {
     let hash_string = 'timestamp=' + timestamp + api_secret
     let signature = CryptoJS.SHA1(hash_string).toString();
     let upload_url = 'https://api.cloudinary.com/v1_1/' + cloud + '/image/upload'
+    var wordArray = CryptoJS.enc.Utf8.parse(source.uri);
+    var file = CryptoJS.enc.Base64.stringify(wordArray);
 
     try {
       let response = await fetch(upload_url, {
@@ -59,8 +61,8 @@ class Register extends Component {
         },
         body: JSON.stringify({
           file: {
-            uri: source.uri,
-            type: 'image/jpeg'
+            uri: file,
+            type: 'image/jpeg;base64'
           },
           api_key: api_key,
           timestamp: timestamp,
@@ -108,7 +110,6 @@ class Register extends Component {
         } else {
           source = {uri: response.uri.replace('file://', ''), isStatic: true};
         }
-
         this.postToCloudinary(source);
 
         this.setState({
