@@ -19,6 +19,7 @@ import EventDetails from './main/eventDetails';
 import SearchMovie from './main/searchMovie';
 import MovieDetails from './main/movieDetails';
 import ImagePicker from './main/imagePicker';
+import EditProfile from './components/user/editProfile'
 
 const routes = {
   loading: LoadingPage,
@@ -34,7 +35,8 @@ const routes = {
   eventDetails: EventDetails,
   searchMovie: SearchMovie,
   movieDetails: MovieDetails,
-  imagePicker: ImagePicker
+  imagePicker: ImagePicker,
+  editProfile: EditProfile
 }
 
 

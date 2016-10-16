@@ -102,7 +102,10 @@ class EventDetails extends Component {
   onPressAddMovie() {
     this.props.navigator.push({
       name: 'searchMovie',
-      passProps: { eventID: this.state.event.id }
+      passProps: {
+        eventID: this.state.event.id,
+        update: this.getToken.bind(this)
+      }
     });
   }
 
@@ -230,7 +233,7 @@ class EventDetails extends Component {
 const styles = StyleSheet.create({
   container: setStyles.container,
   header: setStyles.header,
-  body: setStyles.body,
+  body: setStyles.bodyOther,
   module: setStyles.module,
   details: {
     flex: 1.5,

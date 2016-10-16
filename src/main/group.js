@@ -107,7 +107,7 @@ class Group extends Component {
 const styles = StyleSheet.create({
   container: setStyles.container,
   header: setStyles.header,
-  body: setStyles.body
+  body: setStyles.bodyOther
 });
 
 module.exports = Group;

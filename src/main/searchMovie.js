@@ -44,7 +44,6 @@ class SearchMovie extends Component {
         method: 'GET'
       });
       let res = await response.json();
-      console.log("res is: ", res);
       this.setDataSource(res["Search"]);
     } catch (error) {
       console.log("Something went wrong!", error);
@@ -52,7 +51,6 @@ class SearchMovie extends Component {
   }
 
   setDataSource(results) {
-    console.log("setting data source", results);
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.setState({
       results: results,
@@ -87,7 +85,8 @@ class SearchMovie extends Component {
       name: 'movieDetails',
       passProps: {
         movie: movie,
-        eventID: this.props.eventID
+        eventID: this.props.eventID,
+        update: this.props.update
       }
     });
   }
@@ -104,7 +103,6 @@ class SearchMovie extends Component {
 
   movieSearch(text) {
     this.setState({ searchText: text })
-    console.log("Text:", text);
     let groups = this.state.groups;
     let filteredGroups = [];
     let searchText = this.state.searchText;

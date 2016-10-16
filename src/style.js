@@ -8,11 +8,17 @@ const setStyles = {
     justifyContent: 'center',
     paddingBottom: 15
   },
-  body: {
+  bodyOther: {
     flex: 10,
     marginTop: 5,
     marginBottom: 5,
-    paddingHorizontal: 5
+    paddingHorizontal: 5,
+  },
+  body: {
+    flex: 10,
+    margin: 10,
+    padding: 5,
+    backgroundColor: '#FFD98C',
   },
   header: {
     flex: 1,
@@ -43,6 +49,20 @@ const setStyles = {
     borderColor: '#FFD98C',
     borderRadius: 5,
     backgroundColor: 'white'
+  },
+  logo1: {
+    fontSize: 42,
+    fontFamily: 'Anton'
+  },
+  logo2: {
+    fontSize: 38,
+    fontFamily: 'Pacifico'
+  },
+  logoView: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center'
   }
 }
 

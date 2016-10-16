@@ -1,4 +1,3 @@
-
 import React, { Component } from 'react';
 import {
   StyleSheet,
@@ -6,17 +5,102 @@ import {
   Text,
   View,
   Alert,
+  AsyncStorage,
+  Platform,
   AppState,
 } from 'react-native';
 import Button from './button';
+import setStyles from '../../style'
 
 import Permissions from 'react-native-permissions';
 import ImagePicker from 'react-native-image-picker';
+import ENV from '../../environment';
+import * as CryptoJS from 'crypto-js';
 
 export default class UploadImage extends Component {
   state = {
     types: [],
     status: {},
+    avatarSource: ''
+  }
+
+  imagePicker() {
+    const options = {
+      quality: 1.0,
+      maxWidth: 500,
+      maxHeight: 500,
+      storageOptions: {
+        skipBackup: true
+      }
+    };
+
+    ImagePicker.showImagePicker(options, (response) => {
+
+      if (response.didCancel) {
+        console.log('User cancelled photo picker');
+      }
+      else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      }
+      else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+      }
+      else {
+        var source;
+
+        // You can display the image using either:
+        //source = {uri: 'data:image/jpeg;base64,' + response.data, isStatic: true};
+
+        //Or:
+        if (Platform.OS === 'android') {
+          source = {uri: response.uri, isStatic: true};
+        } else {
+          source = {uri: response.uri.replace('file://', ''), isStatic: true};
+        }
+        this.postToCloudinary(source);
+
+        this.setState({
+          avatarSource: source
+        });
+      }
+    });
+  }
+
+  async postToCloudinary(source) {
+    let timestamp = (Date.now() / 1000 | 0).toString();
+    let api_key = ENV.cloudinary.api;
+    let api_secret = ENV.cloudinary.api_secret
+    let cloud = ENV.cloudinary.cloud_name;
+    let hash_string = 'timestamp=' + timestamp + api_secret
+    let signature = CryptoJS.SHA1(hash_string).toString();
+    let upload_url = 'https://api.cloudinary.com/v1_1/' + cloud + '/image/upload'
+    var wordArray = CryptoJS.enc.Utf8.parse(source.uri);
+    var file = CryptoJS.enc.Base64.stringify(wordArray);
+
+    try {
+      let response = await fetch(upload_url, {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          file: {
+            uri: file,
+            type: 'image/jpeg;base64'
+          },
+          api_key: api_key,
+          timestamp: timestamp,
+          signature: signature
+        })
+      });
+
+      let res = await response.json();
+      console.log(res);
+      this.props.handleUrl(res);
+    } catch(error) {
+      console.log("Error: ", error);
+    }
   }
 
   componentDidMount() {
@@ -58,7 +142,7 @@ export default class UploadImage extends Component {
             ]
           )
         } else {
-          this.props.imagePicker()
+          this.imagePicker()
         }
       }).catch(e => console.warn(e))
   }
@@ -66,7 +150,11 @@ export default class UploadImage extends Component {
   render() {
     return (
       <View>
-      <Button text={'Add Image'} onPress={this._requestPermission.bind(this, 'photo')} />
+        <TouchableHighlight style={styles.imageButton} onPress={this._requestPermission.bind(this, 'photo')} underlayColor='transparent' >
+          <Text style={styles.buttonText}>
+            Add Image
+          </Text>
+        </TouchableHighlight>
       </View>
     );
   }
@@ -102,42 +190,17 @@ export default class UploadImage extends Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    backgroundColor: '#F5FCFF',
-    padding: 10,
+  container: setStyles.container,
+  imageButton: {
+    height: 50,
+    marginTop: 10,
+    marginBottom: 10,
+    padding: 4,
+    borderRadius: 5,
+    backgroundColor: setStyles.primaryColor,
+    justifyContent: 'center'
   },
-  text: {
-    textAlign: 'center',
-    fontWeight: 'bold',
-  },
-  subtext: {
-    textAlign: 'center',
-  },
-  button: {
-    margin: 5,
-    borderColor: 'black',
-    borderWidth: 3,
-    overflow: 'hidden',
-  },
-  buttonInner: {
-    flexDirection: 'column',
-  },
-  undetermined: {
-    backgroundColor: '#E0E0E0',
-  },
-  authorized: {
-    backgroundColor: '#C5E1A5',
-  },
-  denied: {
-    backgroundColor: '#ef9a9a',
-  },
-  restricted: {
-    backgroundColor: '#FFAB91'
-  },
-  openSettings: {
-    padding: 10,
-    alignSelf: 'flex-end',
+  buttonText: {
+    fontSize: 18
   }
 })

@@ -10,12 +10,11 @@ import {
 } from 'react-native';
 import Button from '../common/button';
 import BackButton from '../common/backButton';
-import H1 from '../common/H1';
 import setStyles from '../../style';
 import UploadImage from '../common/uploadImage';
 import UserForm from '../user/userForm';
 
-class Register extends Component {
+class EditProfile extends Component {
   constructor() {
     super();
     this.state = {
@@ -36,11 +35,15 @@ class Register extends Component {
     this.props.navigator.pop();
   }
 
+  updateUserSummary() {
+    this.props.update();
+  }
+
   render() {
     return (
       <View style={styles.container}>
         <View style={styles.header}>
-          <BackButton onPress={this.back.bind(this)} text={'New Account'}/>
+          <BackButton onPress={this.back.bind(this)} text={'Edit Profile'}/>
         </View>
 
         <View style={styles.body}>
@@ -51,7 +54,7 @@ class Register extends Component {
           </View>
 
           <View>
-            <UserForm buttonText={'Sign Up'} />
+            <UserForm buttonText={'Update'} user={this.props.user} navigator={this.props.navigator} update={this.updateUserSummary.bind(this)}/>
           </View>
 
         </View>
@@ -76,4 +79,4 @@ const styles = StyleSheet.create({
   logoView: setStyles.logoView
 })
 
-module.exports = Register;
+module.exports = EditProfile;

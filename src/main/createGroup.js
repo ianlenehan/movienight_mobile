@@ -7,9 +7,10 @@ import {
   AsyncStorage
 } from 'react-native';
 import Button from '../components/common/button';
+import BackButton from '../components/common/backButton';
 import H1 from '../components/common/H1';
 import setStyles from '../style';
-
+import UploadImage from '../components/common/uploadImage';
 
 class CreateGroup extends Component {
   constructor(props) {
@@ -51,41 +52,48 @@ class CreateGroup extends Component {
     });
   }
 
+  back() {
+    this.props.navigator.pop();
+  }
+
+  handleCloudinaryUrl(data) {
+    console.log("cloudinray data: ", data);
+  }
 
   render() {
     return (
       <View style={styles.container}>
         <View style={styles.header}>
-          <H1 text={'Create a new Movie Night Group'} />
+          <BackButton text={'Create MovieNight Group'} onPress={this.back.bind(this)}/>
+        </View>
+        <View style={styles.body}>
+          <View style={styles.middle}>
+            <TextInput
+            onChangeText={(val) => {this.setState({ groupName: val })}}
+            style={styles.input} placeholder="Group Name"
+            autoCorrect={false}
+            autoCapitalize={'none'}
+            />
+
+            <UploadImage handleUrl={this.handleCloudinaryUrl.bind(this)} />
+            <Button text={'Submit'} onPress={this.createGroup.bind(this)} />
+          </View>
+
+          <View style={styles.footer}></View>
         </View>
 
-        <View style={styles.middle}>
-          <TextInput
-          onChangeText={(val) => {this.setState({ groupName: val })}}
-          style={styles.input} placeholder="Group Name"
-          autoCorrect={false}
-          autoCapitalize={'none'}
-          />
-          <Button text={'Submit'} onPress={this.createGroup.bind(this)} />
-        </View>
-
-        <View style={styles.footer}></View>
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center'
-  },
+  container: setStyles.container,
+  body: setStyles.body,
   middle: {
     flex: 4,
-    backgroundColor: setStyles.backgroundColor,
-    justifyContent: 'flex-start',
     padding: 10,
-    alignItems: 'center',
+    alignItems: 'stretch',
     justifyContent: 'center'
   },
   header: setStyles.container,

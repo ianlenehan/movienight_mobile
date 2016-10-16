@@ -71,25 +71,6 @@ class UserSummary extends Component {
     this.deleteToken();
   }
 
-  imagePicker() {
-    ImagePickerIOS.openSelectDialog({},(assetUri)=>{
-      var photo = {
-        uri: assetUri,
-        type: 'image/jpeg',
-        name: 'main.jpg'
-      }
-
-      console.log(photo);
-
-      // var body = new FormData();
-      // body.append('file', photo);
-      //
-      // fetch(presignedUrl, {
-      //   method: 'put', body: body
-      // });
-    },()=>{ console.log('failed'); })
-  }
-
   async deleteToken() {
     try {
       await AsyncStorage.removeItem(ACCESS_TOKEN)
@@ -187,6 +168,16 @@ class UserSummary extends Component {
     });
   }
 
+  editProfile() {
+    this.props.navigator.push({
+      name: 'editProfile',
+      passProps: {
+        user: this.state.user,
+        update: this.getToken.bind(this)
+      }
+    });
+  }
+
   render() {
     const { user } = this.state;
     return (
@@ -209,7 +200,7 @@ class UserSummary extends Component {
         </View>
         <View style={[styles.userButtons, styles.module]}>
           <Button text={'Logout'} onPress={this.onLogoutPress.bind(this)} />
-          <Button text={'Edit Profile'} />
+          <Button text={'Edit Profile'} onPress={this.editProfile.bind(this)} />
         </View>
       </View>
     );

@@ -9,6 +9,7 @@ import {
   Navigator
 } from 'react-native';
 import Button from '../common/button';
+import BackButton from '../common/backButton';
 import setStyles from '../../style';
 import ENV from '../../environment';
 
@@ -87,11 +88,19 @@ class Login extends Component {
     this.props.navigator.immediatelyResetRouteStack([{ name: 'userSummary' }])
   }
 
+  back() {
+    this.props.navigator.pop();
+  }
+
   render() {
     return (
       <View style={styles.container}>
+        <View style={styles.header}>
+          <BackButton onPress={this.back.bind(this)} text={'New Account'}/>
+        </View>
+
         <View style={styles.body}>
-          <View style={styles.header}>
+          <View style={styles.logoView}>
             <Text style={styles.logo1}>Movie</Text>
             <Text style={styles.logo2}>night</Text>
           </View>
@@ -136,22 +145,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   module: setStyles.module,
-  header: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
+  header: setStyles.header,
+  logoView: setStyles.logoView,
   footer: setStyles.container,
   input: setStyles.input,
-  logo1: {
-    fontSize: 42,
-    fontFamily: 'Anton'
-  },
-  logo2: {
-    fontSize: 38,
-    fontFamily: 'Pacifico'
-  }
+  logo1: setStyles.logo1,
+  logo2: setStyles.logo2
 })
 
 module.exports = Login;

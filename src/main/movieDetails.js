@@ -72,6 +72,7 @@ class MovieDetails extends Component {
       });
       let eventDetails = await response.json();
       console.log("event update: ", eventDetails);
+      this.props.update();
       this.props.navigator.popN(2);
     } catch(error) {
       console.log("error: ", error);
