@@ -49,14 +49,14 @@ export default class UploadImage extends Component {
         var source;
 
         // You can display the image using either:
-        //source = {uri: 'data:image/jpeg;base64,' + response.data, isStatic: true};
+        source = {uri: 'data:image/jpeg;base64,' + response.data, isStatic: true};
 
         //Or:
-        if (Platform.OS === 'android') {
-          source = {uri: response.uri, isStatic: true};
-        } else {
-          source = {uri: response.uri.replace('file://', ''), isStatic: true};
-        }
+        // if (Platform.OS === 'android') {
+        //   source = {uri: response.uri, isStatic: true};
+        // } else {
+        //   source = {uri: response.uri.replace('file://', ''), isStatic: true};
+        // }
         this.postToCloudinary(source);
 
         this.setState({
@@ -74,8 +74,6 @@ export default class UploadImage extends Component {
     let hash_string = 'timestamp=' + timestamp + api_secret
     let signature = CryptoJS.SHA1(hash_string).toString();
     let upload_url = 'https://api.cloudinary.com/v1_1/' + cloud + '/image/upload'
-    var wordArray = CryptoJS.enc.Utf8.parse(source.uri);
-    var file = CryptoJS.enc.Base64.stringify(wordArray);
 
     try {
       let response = await fetch(upload_url, {
@@ -85,10 +83,7 @@ export default class UploadImage extends Component {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          file: {
-            uri: file,
-            type: 'image/jpeg;base64'
-          },
+          file: source.uri,
           api_key: api_key,
           timestamp: timestamp,
           signature: signature
@@ -158,35 +153,6 @@ export default class UploadImage extends Component {
       </View>
     );
   }
-
-  // render() {
-  //   return (
-  //     <View style={styles.container}>
-  //       {this.state.types.map(p => (
-  //         <TouchableHighlight
-  //           style={[styles.button, styles[this.state.status[p]]]}
-  //           key={p}
-  //           onPress={this._requestPermission.bind(this, p)}>
-  //           <View>
-  //             <Text style={styles.text}>
-  //               {p}
-  //             </Text>
-  //             <Text style={styles.subtext}>
-  //               {this.state.status[p]}
-  //             </Text>
-  //           </View>
-  //         </TouchableHighlight>
-  //         )
-  //       )}
-  //       <TouchableHighlight
-  //         style={styles.openSettings}
-  //         onPress={Permissions.openSettings}>
-  //         <Text style={styles.text}>Open settings</Text>
-  //       </TouchableHighlight>
-  //
-  //     </View>
-  //   );
-  // }
 }
 
 const styles = StyleSheet.create({
