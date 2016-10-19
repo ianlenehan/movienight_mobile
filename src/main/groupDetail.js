@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {
   View,
   Text,
+  Image,
   StyleSheet,
   TouchableHighlight,
   AsyncStorage
@@ -30,7 +31,8 @@ class GroupDetail extends Component {
       name: 'newEvent',
       passProps: {
         group: this.props.group,
-        user: this.props.user
+        user: this.props.user,
+        header: 'New Event'
       }
     });
   }
@@ -98,8 +100,8 @@ class GroupDetail extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <View style={[styles.image, styles.module]}>
-          <Text>Image Goes Here</Text>
+        <View style={styles.imageWrap}>
+          <Image source={{uri: this.props.group.image}} style={styles.image} resizeMode='contain' />
         </View>
 
         <H3 text={'Members'} />
@@ -129,9 +131,15 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     margin: 5
   },
-  image: {
+  imageWrap: {
     flex: 1,
-    alignItems: 'center'
+    alignItems: 'center',
+    padding: 5
+  },
+  image: {
+    height: 150,
+    width: 375,
+    borderRadius: 5
   },
   members: {
     flex: 1,

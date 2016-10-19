@@ -22,6 +22,15 @@ class NewEvent extends Component {
     }
   }
 
+  componentWillMount() {
+    if (this.props.event) {
+      this.setState({
+        location: this.props.event.location,
+        date: new Date(this.props.event.date)
+      })
+    }
+  }
+
   async onPressCreate() {
     try {
       let response = await fetch(ENV.API + 'events', {
@@ -33,7 +42,8 @@ class NewEvent extends Component {
         body: JSON.stringify({
           location: this.state.location,
           date: this.state.date,
-          group_id: this.props.group.id
+          group_id: this.props.group.id,
+          id: this.props.event.id
         })
       });
       let eventDetails = await response.json();
@@ -49,24 +59,39 @@ class NewEvent extends Component {
   }
 
   viewEvent(eventDetails) {
-    this.props.navigator.push({
-      name: 'eventDetails',
-      passProps: {
-        eventDetails: eventDetails,
-        user: this.props.user
-      }
-    });
+    if (this.props.header !== 'New Event') {
+      this.props.render()
+      this.back()
+    } else {
+      this.props.navigator.push({
+        name: 'eventDetails',
+        passProps: {
+          eventDetails: eventDetails,
+          user: this.props.user,
+          group: this.props.group
+        }
+      });
+    }
+  }
+
+  buttonText() {
+    if (this.props.header === 'New Event') {
+      return 'Create Event'
+    } else {
+      return 'Update Event'
+    }
   }
 
   render() {
     return (
       <View style={styles.container}>
         <View style={styles.header}>
-          <BackButton text={'New Event'} onPress={this.back.bind(this)} />
+          <BackButton text={this.props.header} onPress={this.back.bind(this)} />
         </View>
         <View style={styles.body}>
           <TextInput
           onChangeText={(val) => {this.setState({ location: val })}}
+          value={this.state.location}
           style={styles.input} placeholder="Location"
           autoCorrect={false}
           />
@@ -75,10 +100,11 @@ class NewEvent extends Component {
             date={this.state.date}
             mode="datetime"
             minuteInterval={5}
+            value={this.state.date}
             onDateChange={(date) => {this.setState({ date: date })}}
           />
           <View style={styles.buttons}>
-            <Button text={'Create'} onPress={this.onPressCreate.bind(this)} />
+            <Button text={this.buttonText()} onPress={this.onPressCreate.bind(this)} />
           </View>
         </View>
       </View>
@@ -87,24 +113,12 @@ class NewEvent extends Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: setStyles.backgroundColor,
-    justifyContent: 'flex-start',
-    paddingBottom: 15,
-    paddingHorizontal: 10
-  },
+  container: setStyles.container,
   picker: {
     borderColor: setStyles.primaryColor,
     borderRadius: 5
   },
-  body: {
-    backgroundColor: setStyles.secondaryColor,
-    borderRadius: 5,
-    padding: 10,
-    margin: 5,
-    flex: 10
-  },
+  body: setStyles.body,
   input: setStyles.input,
   buttons: {
     alignItems: 'center',

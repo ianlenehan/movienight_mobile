@@ -14,12 +14,14 @@ class BackButton extends Component {
     if (this.props.admin) {
       return (
         <TouchableHighlight
-        onPress={this.props.onPress}
+        onPress={this.props.edit}
         underlayColor={'transparent'}
-        style={styles.sides}>
+        style={styles.right}>
           <Icon name="cog" size={20} color="grey" />
         </TouchableHighlight>
       )
+    } else {
+      return <View style={styles.right} />
     }
   }
 
@@ -35,12 +37,7 @@ class BackButton extends Component {
         <View style={styles.title}>
           <Text style={styles.text}>{this.props.text}</Text>
         </View>
-        <TouchableHighlight
-        onPress={this.props.onPress}
-        underlayColor={'transparent'}
-        style={styles.right}>
-          <Icon name="cog" size={20} color="grey" />
-        </TouchableHighlight>
+        {this.isAdmin()}
       </View>
     );
   }

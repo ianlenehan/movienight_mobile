@@ -12,17 +12,48 @@ import H1 from '../components/common/H1';
 import setStyles from '../style';
 import UploadImage from '../components/common/uploadImage';
 
-class CreateGroup extends Component {
+class GroupForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      groupName: ''
+      groupName: '',
+      groupID: '',
+      groupImage: '',
+      cloudinaryStatus: null
     }
   }
 
-  async createGroup() {
-    let groupName = this.state.groupName;
-    let userID = this.props.user.id;
+  componentWillMount() {
+    if (this.props.group) {
+      this.setState({
+        groupName: this.props.group.group_name,
+        groupID: this.props.group.id,
+        groupImage: this.props.group.group_image
+      })
+    }
+  }
+
+  renderButton() {
+    if (this.state.cloudinaryStatus) {
+      return (
+        <Button text={'Please Wait...'} />
+      )
+    } else {
+      return (
+        <Button text={'Submit'} onPress={this.sendGroupDetails.bind(this)} />
+      )
+    }
+  }
+
+  uploading() {
+    if (this.state.cloudinaryStatus === null) {
+      this.setState({ cloudinaryStatus: 'uploading' })
+    } else {
+      this.setState({ cloudinaryStatus: null })
+    }
+  }
+
+  async sendGroupDetails() {
     try {
       let response = await fetch('http://localhost:3000/api/v1/groups', {
         method: 'POST',
@@ -31,8 +62,10 @@ class CreateGroup extends Component {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          name: groupName,
-          id: userID
+          name: this.state.groupName,
+          id: this.state.groupID,
+          image: this.state.groupImage,
+          user_id: this.props.user.id
         })
       });
       let group = await response.json();
@@ -58,6 +91,7 @@ class CreateGroup extends Component {
 
   handleCloudinaryUrl(data) {
     console.log("cloudinray data: ", data);
+    this.setState({ groupImage: data })
   }
 
   render() {
@@ -70,13 +104,13 @@ class CreateGroup extends Component {
           <View style={styles.middle}>
             <TextInput
             onChangeText={(val) => {this.setState({ groupName: val })}}
+            value={this.state.groupName}
             style={styles.input} placeholder="Group Name"
             autoCorrect={false}
             autoCapitalize={'none'}
             />
-
-            <UploadImage handleUrl={this.handleCloudinaryUrl.bind(this)} />
-            <Button text={'Submit'} onPress={this.createGroup.bind(this)} />
+            <UploadImage uploading={this.uploading.bind(this)} handleUrl={this.handleCloudinaryUrl.bind(this)} />
+            {this.renderButton()}
           </View>
 
           <View style={styles.footer}></View>
@@ -111,4 +145,4 @@ const styles = StyleSheet.create({
   }
 });
 
-module.exports = CreateGroup;
+module.exports = GroupForm;

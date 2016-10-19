@@ -57,6 +57,7 @@ export default class UploadImage extends Component {
         // } else {
         //   source = {uri: response.uri.replace('file://', ''), isStatic: true};
         // }
+        this.props.uploading();
         this.postToCloudinary(source);
 
         this.setState({
@@ -91,8 +92,9 @@ export default class UploadImage extends Component {
       });
 
       let res = await response.json();
-      console.log(res);
-      this.props.handleUrl(res);
+      console.log(res.secure_url);
+      this.props.uploading();
+      this.props.handleUrl(res.secure_url);
     } catch(error) {
       console.log("Error: ", error);
     }
@@ -147,7 +149,7 @@ export default class UploadImage extends Component {
       <View>
         <TouchableHighlight style={styles.imageButton} onPress={this._requestPermission.bind(this, 'photo')} underlayColor='transparent' >
           <Text style={styles.buttonText}>
-            Add Image
+            Photo
           </Text>
         </TouchableHighlight>
       </View>

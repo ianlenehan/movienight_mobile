@@ -26,6 +26,7 @@ class UserForm extends Component {
       email: '',
       password: '',
       password_confirmation: '',
+      image: '',
       errors: [],
       avatarSource: '',
       mode: ''
@@ -34,11 +35,13 @@ class UserForm extends Component {
 
   componentDidMount() {
     if (this.props.user) {
-      const { name_first, name_last, email } = this.props.user;
+      const { name_first, name_last, email, image } = this.props.user;
       this.setState({
         nameFirst: name_first,
         nameLast: name_last,
-        email: email
+        email: email,
+        image: image,
+        cloudinaryStatus: null
       })
     }
     if (this.props.mode) {
@@ -47,7 +50,28 @@ class UserForm extends Component {
   }
 
   handleCloudinaryUrl(data) {
-    console.log("handling cloud url: ", data);
+    console.log("handling data: ", data);
+    this.setState({ image: data })
+  }
+
+  renderButton() {
+    if (this.state.cloudinaryStatus) {
+      return (
+        <Button text={'Please Wait...'} />
+      )
+    } else {
+      return (
+        <Button text={this.props.buttonText} onPress={this.onPressButton.bind(this)} />
+      )
+    }
+  }
+
+  uploading() {
+    if (this.state.cloudinaryStatus === null) {
+      this.setState({ cloudinaryStatus: 'uploading' })
+    } else {
+      this.setState({ cloudinaryStatus: null })
+    }
   }
 
   async onPressButton() {
@@ -65,6 +89,7 @@ class UserForm extends Component {
             email: this.state.email,
             password: this.state.password,
             password_confirmation: this.state.password_confirmation,
+            image: this.state.image,
             mode: this.props.buttonText
           }
         })
@@ -116,10 +141,10 @@ class UserForm extends Component {
         secureTextEntry={true}
         />
 
-        <UploadImage handleUrl={this.handleCloudinaryUrl.bind(this)} />
+        <UploadImage uploading={this.uploading.bind(this)} handleUrl={this.handleCloudinaryUrl.bind(this)} />
 
         <View style={{alignItems: 'center'}}>
-          <Button text={this.props.buttonText} onPress={this.onPressButton.bind(this)} />
+          {this.renderButton()}
         </View>
 
       </View>

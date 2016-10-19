@@ -19,7 +19,7 @@ class UserSummary extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      user: '',
+      user: {},
       groups: [],
       events: []
     }
@@ -98,6 +98,7 @@ class UserSummary extends Component {
     return this.state.events.map((event, index) => {
       let location = this.trimName(event.location);
       let group = this.getEventGroup(event);
+      let groupName = this.trimName(group.group_name)
       let date = new Date(Date.parse(event.date));
       return (
         <TouchableHighlight
@@ -106,7 +107,7 @@ class UserSummary extends Component {
           underlayColor="grey">
           <View style={styles.eventDetails}>
             <Text style={{flex: 3.7}}>{strftime('%a %b %d', date)}</Text>
-            <Text style={{flex: 5}}>{group}</Text>
+            <Text style={{flex: 5}}>{groupName}</Text>
             <Text style={{flex: 5}}>{location}</Text>
           </View>
         </TouchableHighlight>
@@ -118,7 +119,7 @@ class UserSummary extends Component {
     let g = this.state.groups;
     for (var i = 0; i < g.length; i++) {
       if (g[i].id === event.group_id) {
-        return this.trimName(g[i].group_name);
+        return g[i];
       }
     }
     return "Unknown Group";
@@ -133,11 +134,10 @@ class UserSummary extends Component {
   }
 
   selectEvent(event) {
-    console.log("Event pressed: ", event);
     this.props.navigator.push({
       name: 'eventDetails',
       passProps: {
-        eventID: event.id,
+        eventDetails: event,
         user: this.state.user
       }
     });
@@ -152,7 +152,7 @@ class UserSummary extends Component {
 
   createGroup() {
     this.props.navigator.push({
-      name: 'createGroup',
+      name: 'groupForm',
       passProps: { user: this.state.user }
     });
   }
@@ -178,12 +178,24 @@ class UserSummary extends Component {
     });
   }
 
+  profileImage() {
+    if (this.state.user.image !== null) {
+      return (
+        <Image style={styles.photo} source={{uri: this.state.user.image}} />
+      )
+    } else {
+      return (
+        <Image style={styles.photo} source={require('../img/user.png')} />
+      )
+    }
+  }
+
   render() {
     const { user } = this.state;
     return (
       <View style={styles.container}>
         <View style={[styles.profile, styles.module]}>
-          <Image style={styles.photo} source={require('../img/Ian.png')} />
+          {this.profileImage()}
           <Text style={styles.name}>{user.name_first} {user.name_last}</Text>
         </View>
         <H3 text={'My Groups'} />
@@ -250,7 +262,7 @@ const styles = StyleSheet.create({
   photo: {
     width: 80,
     height: 80,
-    borderRadius: 10,
+    borderRadius: 80/2,
     paddingHorizontal: 20
   },
   name: {

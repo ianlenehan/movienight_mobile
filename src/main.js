@@ -13,7 +13,7 @@ import UserSummary from './main/user_summary';
 import LoadingPage from './main/loading_page';
 import Groups from './main/groups';
 import Group from './main/group';
-import CreateGroup from './main/createGroup';
+import GroupForm from './main/groupForm';
 import NewEvent from './main/newEvent';
 import EventDetails from './main/eventDetails';
 import SearchMovie from './main/searchMovie';
@@ -30,7 +30,7 @@ const routes = {
   userSummary: UserSummary,
   groups: Groups,
   group: Group,
-  createGroup: CreateGroup,
+  groupForm: GroupForm,
   newEvent: NewEvent,
   eventDetails: EventDetails,
   searchMovie: SearchMovie,

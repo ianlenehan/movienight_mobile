@@ -12,10 +12,17 @@ import strftime from 'strftime';
 import H3 from '../components/common/H3';
 
 class GroupMembers extends Component {
+  profileImage() {
+    if (this.props.member.image !== null) {
+      return <Image style={styles.photo} source={{uri: this.props.member.image}} />
+    } else {
+      return <Image style={styles.photo} source={require('../img/user.png')} />
+    }
+  }
   render() {
     return (
       <View style={styles.container}>
-        <Image style={styles.photo} source={require('../img/Ian.png')} />
+        {this.profileImage()}
         <Text>{this.props.member.name_first}</Text>
       </View>
     );

@@ -26,7 +26,7 @@ class EventDetails extends Component {
       attendees: [],
       attending: false,
       movie: {},
-      groupName: '',
+      group: '',
       token: ''
     }
   }
@@ -59,14 +59,14 @@ class EventDetails extends Component {
             access_token: token
           },
           event: {
-            id: this.props.eventID
+            id: this.props.eventDetails.id
           }
         })
       });
       let res = await response.json();
       this.setState({
         event: res.event,
-        groupName: res.group.group_name,
+        group: res.group,
         attendees: res.attendees,
         attending: res.attending
       });
@@ -180,6 +180,18 @@ class EventDetails extends Component {
     }
   }
 
+  editEvent() {
+    this.props.navigator.push({
+      name: 'newEvent',
+      passProps: {
+        event: this.state.event,
+        user: this.props.user,
+        group: this.state.group,
+        render: this.getToken.bind(this)
+      }
+    });
+  }
+
   render() {
     const { location, date } = this.state.event;
     let formattedDate = new Date(Date.parse(date));
@@ -189,14 +201,17 @@ class EventDetails extends Component {
       <View style={styles.container}>
 
         <View style={styles.header}>
-          <BackButton onPress={this.back.bind(this)} text={'Event Details'}/>
+          <BackButton text={this.state.group.group_name}
+          admin={true}
+          edit={this.editEvent.bind(this)}
+          onPress={this.back.bind(this)} text={'Event Details'}/>
         </View>
 
         <View style={styles.body}>
           <View style={[styles.module, styles.top]}>
             <View style={{alignItems: 'center'}}>
               <H1 text={location} />
-              <H2 text={this.state.groupName} />
+              <H2 text={this.state.group.group_name} />
             </View>
 
             <View style={styles.details}>
