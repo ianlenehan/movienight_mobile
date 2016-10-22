@@ -1,7 +1,7 @@
 const setStyles = {
   primaryColor: '#ffd173',
   secondaryColor: '#FFD98C',
-  // secondaryColor: 'white',
+  redColor: '#d22418',
   container: {
     flex: 1,
     alignItems: 'stretch',

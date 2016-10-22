@@ -55,6 +55,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     margin: 10,
     padding: 5,
+    borderRadius: 5,
     backgroundColor: setStyles.secondaryColor
   },
   footer: {

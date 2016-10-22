@@ -4,6 +4,7 @@ import {
   Text,
   Image,
   StyleSheet,
+  Alert,
   AsyncStorage
 } from 'react-native';
 import Button from '../components/common/button';
@@ -15,6 +16,7 @@ import setStyles from '../style';
 import strftime from 'strftime';
 import ENV from '../environment';
 import GroupMembers from './groupMembers';
+import StarRating from 'react-native-star-rating';
 
 const ACCESS_TOKEN = 'access_token';
 
@@ -27,7 +29,9 @@ class EventDetails extends Component {
       attending: false,
       movie: {},
       group: '',
-      token: ''
+      token: '',
+      rating: 0,
+      averageRating: 0
     }
   }
 
@@ -71,6 +75,7 @@ class EventDetails extends Component {
         attending: res.attending
       });
       this.fetchMovie(res.event.imdb_id);
+      this.fetchRating();
     } catch(error) {
       console.log("error: ", error);
     }
@@ -192,6 +197,59 @@ class EventDetails extends Component {
     });
   }
 
+  async fetchRating() {
+    let id = this.state.event.id
+    let user_id = this.props.user.id
+    try {
+      let response = await fetch(ENV.API + 'events/rating/' + id + '/' + user_id, { method: 'GET' });
+      let res = await response.json();
+      console.log("Success: ", res);
+      this.setState({ rating: res.rating[0].rating_score, averageRating: res.average })
+    } catch(error) {
+      console.log("error: ", error);
+    }
+  }
+
+  eventHasFinished() {
+    return new Date() > new Date(this.state.event.date)
+  }
+
+  async onStarRatingPress(rating) {
+    if (this.eventHasFinished()) {
+      this.setState({ rating: rating })
+      try {
+        let response = await fetch(ENV.API + 'events/rating', {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            user: {
+              access_token: this.state.token
+            },
+            event: {
+              id: this.props.eventDetails.id,
+              rating: rating
+            }
+          })
+        });
+        let res = await response.json();
+        console.log("Success: ", res);
+      } catch(error) {
+        console.log("error: ", error);
+      }
+    } else {
+      Alert.alert(
+        'Hang on!',
+        "You can rate this event after it has finished.",
+        [
+          {text: 'OK', onPress: this.setState({ rating: this.state.rating }) },
+        ]
+      )
+    }
+  }
+
   render() {
     const { location, date } = this.state.event;
     let formattedDate = new Date(Date.parse(date));
@@ -239,6 +297,25 @@ class EventDetails extends Component {
           <View style={[styles.module, styles.attendees]}>
             {this.renderMembers()}
           </View>
+          <View style={styles.starsView}>
+            <Text style={styles.ratingText}>
+              Rate Event:
+            </Text>
+            <View style={styles.stars}>
+              <StarRating
+                disabled={false}
+                maxStars={5}
+                rating={this.state.rating}
+                selectedStar={(rating) => this.onStarRatingPress(rating)}
+                starColor={setStyles.redColor}
+                emptyStarColor={setStyles.secondaryColor}
+                emptyStar={'star'}
+                fullStar={'star'}
+                starSize={25}
+              />
+            </View>
+          <Text style={styles.avgRating}>Average Rating: {this.state.averageRating}</Text>
+          </View>
         </View>
       </View>
     );
@@ -272,6 +349,25 @@ const styles = StyleSheet.create({
   imageHalf: {
     justifyContent: 'flex-end',
     flex: 1
+  },
+  starsView: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  stars: {
+    flex: 1.8,
+    alignItems: 'center'
+  },
+  ratingText: {
+    fontWeight: 'bold',
+    flex: 1,
+    paddingLeft: 5
+  },
+  avgRating: {
+    fontSize: 10,
+    flex: 1,
+    textAlign: 'right',
+    paddingRight: 5
   }
 });
 
