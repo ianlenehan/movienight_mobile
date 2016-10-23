@@ -29,11 +29,12 @@ class UserForm extends Component {
       image: '',
       errors: [],
       avatarSource: '',
-      mode: ''
+      mode: '',
+      cloudinaryStatus: null
     }
   }
 
-  componentDidMount() {
+  componentWillMount() {
     if (this.props.user) {
       const { name_first, name_last, email, image } = this.props.user;
       this.setState({

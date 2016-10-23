@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 const local = 'http://localhost:3000/api/v1/'
-const prod = 'https://movienight-api.herokuapp.com//api/v1/';
+const prod = 'https://movienight-api.herokuapp.com/api/v1/';
 
 const ENV = {
   API: prod,

@@ -51,7 +51,7 @@ class Register extends Component {
           </View>
 
           <View>
-            <UserForm buttonText={'Sign Up'} />
+            <UserForm navigator={this.props.navigator} buttonText={'Sign Up'} />
           </View>
 
         </View>
