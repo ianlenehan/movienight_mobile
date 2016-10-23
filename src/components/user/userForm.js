@@ -76,7 +76,7 @@ class UserForm extends Component {
 
   async onPressButton() {
     try {
-      let response = await fetch('http://localhost:3000/api/v1/users', {
+      let response = await fetch(ENV.API + 'users', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -104,7 +104,9 @@ class UserForm extends Component {
   }
 
   back() {
-    this.props.update();
+    if (this.props.update) {
+      this.props.update();
+    }
     this.props.navigator.pop();
   }
 

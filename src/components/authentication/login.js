@@ -96,7 +96,7 @@ class Login extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.header}>
-          <BackButton onPress={this.back.bind(this)} text={'New Account'}/>
+          <BackButton onPress={this.back.bind(this)} text={'Log In'}/>
         </View>
 
         <View style={styles.body}>

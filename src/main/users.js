@@ -6,6 +6,7 @@ import {
   AsyncStorage
 } from 'react-native';
 import setStyles from '../style';
+import ENV from '../environment'
 
 class Users extends Component {
   constructor(props) {
@@ -17,7 +18,7 @@ class Users extends Component {
 
   async componentWillMount() {
     try {
-      let response = await fetch('http://localhost:3000/api/v1/users', {
+      let response = await fetch( ENV.API + 'users', {
         method: 'GET',
         headers: {
           'Accept': 'application/json',

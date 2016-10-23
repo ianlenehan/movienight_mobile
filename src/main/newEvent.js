@@ -32,6 +32,12 @@ class NewEvent extends Component {
   }
 
   async onPressCreate() {
+    let eventID;
+    if (this.props.event) {
+      eventID = this.props.event.id
+    } else {
+      eventID = 0
+    }
     try {
       let response = await fetch(ENV.API + 'events', {
         method: 'POST',
@@ -43,7 +49,7 @@ class NewEvent extends Component {
           location: this.state.location,
           date: this.state.date,
           group_id: this.props.group.id,
-          id: this.props.event.id
+          id: eventID
         })
       });
       let eventDetails = await response.json();
@@ -59,18 +65,19 @@ class NewEvent extends Component {
   }
 
   viewEvent(eventDetails) {
-    if (this.props.header !== 'New Event') {
-      this.props.render()
-      this.back()
-    } else {
+    if (this.props.header === 'New Event') {
       this.props.navigator.push({
         name: 'eventDetails',
         passProps: {
           eventDetails: eventDetails,
           user: this.props.user,
-          group: this.props.group
+          group: this.props.group,
+          header: this.props.header
         }
       });
+    } else {
+      this.props.render()
+      this.back()
     }
   }
 

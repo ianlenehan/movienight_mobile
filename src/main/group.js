@@ -17,7 +17,7 @@ class Group extends Component {
     super(props)
     this.state = {
       groupMembers: {},
-      user: '',
+      user: {},
       isAMember: false,
       isAdmin: false,
       joinResponse: ''
@@ -67,7 +67,7 @@ class Group extends Component {
   }
 
   checkIsAdmin() {
-    if (this.state.user.id === this.props.group.group_admin) {
+    if (this.props.user.id === this.props.group.group_admin) {
       this.setState({ isAdmin: true })
     }
   }
@@ -75,13 +75,17 @@ class Group extends Component {
   editGroup() {
     this.props.navigator.push({
       name: 'groupForm',
-      passProps: { group: this.props.group, user: this.state.user }
+      passProps: {
+        group: this.props.group,
+        user: this.state.user,
+        update: this.props.update.bind(this)
+      }
     });
   }
 
   async joinRequest() {
     try {
-      let response = await fetch('http://localhost:3000/api/v1/groups/join', {
+      let response = await fetch( ENV.API + 'groups/join', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',

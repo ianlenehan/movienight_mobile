@@ -101,7 +101,11 @@ class EventDetails extends Component {
   }
 
   back() {
-    this.props.navigator.pop();
+    if (this.props.header) {
+      this.props.navigator.popN(2)
+    } else {
+      this.props.navigator.pop();
+    }
   }
 
   onPressAddMovie() {

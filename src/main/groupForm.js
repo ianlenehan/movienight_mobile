@@ -11,6 +11,7 @@ import BackButton from '../components/common/backButton';
 import H1 from '../components/common/H1';
 import setStyles from '../style';
 import UploadImage from '../components/common/uploadImage';
+import ENV from '../environment'
 
 class GroupForm extends Component {
   constructor(props) {
@@ -28,7 +29,7 @@ class GroupForm extends Component {
       this.setState({
         groupName: this.props.group.group_name,
         groupID: this.props.group.id,
-        groupImage: this.props.group.group_image
+        groupImage: this.props.group.image
       })
     }
   }
@@ -55,7 +56,7 @@ class GroupForm extends Component {
 
   async sendGroupDetails() {
     try {
-      let response = await fetch('http://localhost:3000/api/v1/groups', {
+      let response = await fetch(ENV.API + 'groups', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -69,6 +70,7 @@ class GroupForm extends Component {
         })
       });
       let group = await response.json();
+      console.log("Group details: ", group);
       this.visitGroup(group);
     } catch(error) {
       console.log("Hmm...", error);
@@ -76,13 +78,19 @@ class GroupForm extends Component {
   }
 
   visitGroup(group) {
-    this.props.navigator.push({
-      name: 'group',
-      passProps: {
-        group: group,
-        user: this.props.user
-      }
-    });
+    if (this.props.group) {
+      this.props.navigator.popN(2);
+      this.props.update();
+    } else {
+      this.props.navigator.push({
+        name: 'group',
+        passProps: {
+          group: group,
+          user: this.props.user,
+          update: this.props.update
+        }
+      });
+    }
   }
 
   back() {

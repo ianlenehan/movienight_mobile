@@ -91,7 +91,7 @@ class GroupDetail extends Component {
     this.props.navigator.push({
       name: 'eventDetails',
       passProps: {
-        eventID: event.id,
+        eventDetails: event,
         user: this.props.user
       }
     });
@@ -111,8 +111,10 @@ class GroupDetail extends Component {
 
         <H3 text={'Recent Events'} />
         <View style={[styles.events, styles.module]}>
-          {this.renderEvents()}
-          <View style={{alignItems: 'center'}}>
+          <View>
+            {this.renderEvents()}
+          </View>
+          <View style={styles.buttonView}>
             <Button text={'New Event'} onPress={this.newEvent.bind(this)} />
           </View>
         </View>
@@ -138,7 +140,7 @@ const styles = StyleSheet.create({
   },
   image: {
     height: 150,
-    width: 375,
+    width: 275,
     borderRadius: 5
   },
   members: {
@@ -150,13 +152,16 @@ const styles = StyleSheet.create({
   },
   events: {
     flex: 1,
-    justifyContent: 'center'
+    justifyContent: 'space-between'
   },
   eventDetails: {
     flex: 1,
     flexDirection: 'row',
     paddingBottom: 5
   },
+  buttonView: {
+    alignItems: 'center'
+  }
 });
 
 module.exports = GroupDetail;

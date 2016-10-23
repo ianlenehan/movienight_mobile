@@ -153,7 +153,10 @@ class UserSummary extends Component {
   createGroup() {
     this.props.navigator.push({
       name: 'groupForm',
-      passProps: { user: this.state.user }
+      passProps: {
+        user: this.state.user,
+        update: this.getToken.bind(this)
+     }
     });
   }
 
@@ -163,7 +166,8 @@ class UserSummary extends Component {
       name: 'group',
       passProps: {
         group: group,
-        user: this.state.user
+        user: this.state.user,
+        update: this.getToken.bind(this)
       }
     });
   }
@@ -179,7 +183,7 @@ class UserSummary extends Component {
   }
 
   profileImage() {
-    if (this.state.user.image !== null) {
+    if (this.state.user.image !== '') {
       return (
         <Image style={styles.photo} source={{uri: this.state.user.image}} />
       )
@@ -243,7 +247,7 @@ const styles = StyleSheet.create({
   },
   events: {
     flex: 1,
-    justifyContent: 'center'
+    justifyContent: 'flex-start'
   },
   eventDetails: {
     flex: 1,

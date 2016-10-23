@@ -6,6 +6,7 @@ import {
   AsyncStorage
 } from 'react-native';
 import setStyles from '../style';
+import ENV from '../environment'
 
 const ACCESS_TOKEN = 'access_token';
 
@@ -31,7 +32,7 @@ class LoadingPage extends Component {
 
   async verifyToken(accessToken) {
     try {
-      let url = 'http://localhost:3000/api/v1/verify?session&access_token%5D='
+      let url = ENV.API + 'verify?session&access_token%5D='
       let response = await fetch(url + accessToken)
       let res = await response.text();
       if (response.status >= 200 && response.status < 300) {
@@ -49,14 +50,17 @@ class LoadingPage extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>MovieNight</Text>
+        <View style={styles.body}>
+          <Text>MovieNight</Text>
+        </View>
       </View>
     );
   }
 };
 
 const styles = StyleSheet.create({
-  container : setStyles.container
+  container : setStyles.container,
+  body: setStyles.body
 });
 
 module.exports = LoadingPage;
