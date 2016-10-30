@@ -5,6 +5,7 @@ import {
   TextInput,
   TouchableHighlight,
   View,
+  Alert,
   AsyncStorage,
   Navigator
 } from 'react-native';
@@ -75,6 +76,7 @@ class Login extends Component {
         let accessToken = res;
         this.storeToken(accessToken)
         console.log(("res token:" + accessToken));
+        this.props.navigator.immediatelyResetRouteStack([{ name: 'userSummary' }])
       } else {
         let error = res;
         throw error;
@@ -83,9 +85,10 @@ class Login extends Component {
     } catch(error) {
       this.removeToken();
       this.setState({error: error});
-      console.log("Error: ", error);
+      Alert.alert("Alert!", error, [
+        { text: 'Oops' },
+      ]);
     }
-    this.props.navigator.immediatelyResetRouteStack([{ name: 'userSummary' }])
   }
 
   back() {

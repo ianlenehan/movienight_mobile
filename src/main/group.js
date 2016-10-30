@@ -3,6 +3,7 @@ import {
   Text,
   View,
   StyleSheet,
+  Alert,
   AsyncStorage
 } from 'react-native';
 import setStyles from '../style';
@@ -20,7 +21,7 @@ class Group extends Component {
       user: {},
       isAMember: false,
       isAdmin: false,
-      joinResponse: ''
+      requests: null
     }
   }
 
@@ -30,14 +31,77 @@ class Group extends Component {
     this.checkIsAdmin();
   }
 
+  async approveRequest(request) {
+    console.log("approving...");
+    try {
+      let response = await fetch( ENV.API + 'groups/add_user', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          user_id: request.user_id,
+          request_id: request.request,
+          group_id: this.props.group.id
+        })
+      });
+
+      let res = await response.text();
+      Alert.alert(
+        "Success!",
+        res,
+        [ { text: 'OK' } ]
+      )
+    } catch(error) {
+      console.log("Oops: ", error);
+    }
+  }
+
+  async denyRequest(request) {
+    console.log("denied", request);
+    try {
+      let response = await fetch( ENV.API + 'requests/deny/' + request.request, {
+        method: 'GET'
+      });
+      let res = await response.text();
+      Alert.alert(
+        "Request Denied!",
+        res,
+        [ { text: 'OK' } ]
+      )
+    } catch(error) {
+      console.log("Oops: ", error);
+    }
+  }
+
+  checkRequests() {
+    let that = this;
+    if (this.props.user.id === this.props.group.group_admin && this.state.requests) {
+      console.log("there are requests");
+      this.state.requests.map((request) => {
+        Alert.alert(
+          "New Requests",
+          request.user + " Wants To Join",
+          [
+            {text: 'Approve', onPress: () => this.approveRequest(request) },
+            {text: 'Deny', onPress: () => this.denyRequest(request) }
+          ]
+        )
+      })
+    }
+  }
+
   async getGroupMembers() {
     try {
       let groupID = this.props.group.id
       let response = await fetch(ENV.API + 'groups/' + groupID + '/members', {
         method: 'GET',
       });
-      let members = await response.json();
-      this.setState({ groupMembers: members });
+      let res = await response.json();
+      console.log(res);
+      this.setState({ groupMembers: res.members, requests: res.requests });
+      this.checkRequests();
     } catch(error) {
       console.log("There was an error fetching users: ", error);
     }
@@ -59,9 +123,8 @@ class Group extends Component {
 
   isNotAMember() {
     return (
-      <View style={styles.body}>
+      <View style={styles.requestBody}>
         <Button text={'Request to Join'} onPress={this.joinRequest.bind(this)} />
-        <Text>{this.state.joinResponse}</Text>
       </View>
     );
   }
@@ -98,7 +161,13 @@ class Group extends Component {
       });
 
       let res = await response.text();
-      this.setState({ joinResponse: res })
+      Alert.alert(
+        "Join Request",
+        res,
+        [
+          { text: 'OK', onPress: this.backTwo.bind(this) },
+        ]
+      )
       console.log(res);
     } catch(error) {
       console.log("Oops: ", error);
@@ -107,6 +176,10 @@ class Group extends Component {
 
   back() {
     this.props.navigator.pop();
+  }
+
+  backTwo() {
+    this.props.navigator.popN(2);
   }
 
   render() {
@@ -130,7 +203,15 @@ class Group extends Component {
 const styles = StyleSheet.create({
   container: setStyles.container,
   header: setStyles.header,
-  body: setStyles.bodyOther
+  body: setStyles.bodyOther,
+  requestBody: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 15,
+    margin: 5,
+    backgroundColor: setStyles.secondaryColor
+  }
 });
 
 module.exports = Group;

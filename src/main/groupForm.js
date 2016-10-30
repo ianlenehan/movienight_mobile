@@ -106,7 +106,7 @@ class GroupForm extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.header}>
-          <BackButton text={'Create MovieNight Group'} onPress={this.back.bind(this)}/>
+          <BackButton text={'Create Group'} onPress={this.back.bind(this)}/>
         </View>
         <View style={styles.body}>
           <View style={styles.middle}>

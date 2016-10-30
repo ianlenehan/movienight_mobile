@@ -17,6 +17,8 @@ import UploadImage from '../common/uploadImage';
 import ENV from '../../environment';
 import * as CryptoJS from 'crypto-js';
 
+const ACCESS_TOKEN = 'access_token'
+
 class UserForm extends Component {
   constructor() {
     super();
@@ -95,20 +97,66 @@ class UserForm extends Component {
           }
         })
       });
-
-      let res = await response.text();
+      let res = await response.json();
       console.log("res is: ", res);
-      this.back();
+      this.afterUpdate(res);
     } catch(errors) {
       console.log("Error: ", errors);
     }
   }
 
-  back() {
-    if (this.props.update) {
-      this.props.update();
+  afterUpdate(user) {
+    if (this.props.buttonText === 'Sign Up') {
+      this.logUserIn()
+    } else {
+      this.back()
     }
+  }
+
+  back() {
+    this.props.update();
     this.props.navigator.pop();
+  }
+
+  async logUserIn() {
+    try {
+      let response = await fetch(ENV.API + 'login', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          session: {
+            email: this.state.email,
+            password: this.state.password
+          }
+        })
+      });
+
+      let res = await response.text();
+      if (response.status >= 200 && response.status < 300) {
+        // Handle success
+        let accessToken = res;
+        this.storeToken(accessToken)
+        console.log(("res token:" + accessToken));
+      } else {
+        let error = res;
+        throw error;
+      }
+    } catch(error) {
+      console.log("Error: ", error);
+    }
+    this.props.navigator.immediatelyResetRouteStack([{ name: 'userSummary' }])
+  }
+
+  async storeToken(accessToken) {
+    try {
+      await AsyncStorage.setItem(ACCESS_TOKEN, accessToken);
+      this.getToken();
+    } catch (error) {
+      console.log("something went wrong");
+    }
   }
 
   render() {

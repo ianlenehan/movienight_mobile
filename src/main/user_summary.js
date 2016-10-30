@@ -183,7 +183,7 @@ class UserSummary extends Component {
   }
 
   profileImage() {
-    if (this.state.user.image !== '') {
+    if (this.state.user.image) {
       return (
         <Image style={styles.photo} source={{uri: this.state.user.image}} />
       )

@@ -5,6 +5,7 @@ import {
   Image,
   StyleSheet,
   Alert,
+  TouchableHighlight,
   AsyncStorage
 } from 'react-native';
 import Button from '../components/common/button';
@@ -218,6 +219,18 @@ class EventDetails extends Component {
     return new Date() > new Date(this.state.event.date)
   }
 
+  showMovieDetails() {
+    Alert.alert(
+      this.state.movie["Title"],
+      "Director: " + this.state.movie["Director"] + "\n" +
+      "Runtime: " + this.state.movie["Runtime"]  + "\n" +
+      "Actors: " + this.state.movie["Actors"],
+      [
+        {text: 'Close'},
+      ]
+    )
+  }
+
   async onStarRatingPress(rating) {
     if (this.eventHasFinished()) {
       this.setState({ rating: rating })
@@ -287,14 +300,17 @@ class EventDetails extends Component {
                 {this.attendance()}
                 {this.renderButton()}
               </View>
-
-              <View style={styles.imageHalf}>
+              <TouchableHighlight
+                onPress={this.showMovieDetails.bind(this)}
+                style={styles.imageHalf}
+                underlayColor='transparent'
+                >
                 <Image
                   source={{uri: poster}}
                   style={styles.image}
                   resizeMode='contain'
                   />
-              </View>
+              </TouchableHighlight>
             </View>
           </View>
           <H3 text={'Attendees'} />
