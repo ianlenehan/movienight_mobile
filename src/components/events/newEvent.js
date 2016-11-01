@@ -7,10 +7,10 @@ import {
   DatePickerIOS,
   View
 } from 'react-native';
-import Button from '../components/common/button';
-import BackButton from '../components/common/backButton';
-import setStyles from '../style';
-import ENV from '../environment';
+import Button from '../common/button';
+import BackButton from '../common/backButton';
+import setStyles from '../../style';
+import ENV from '../../environment';
 
 class NewEvent extends Component {
   constructor() {

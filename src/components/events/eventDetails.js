@@ -8,15 +8,15 @@ import {
   TouchableHighlight,
   AsyncStorage
 } from 'react-native';
-import Button from '../components/common/button';
-import BackButton from '../components/common/backButton';
-import H1 from '../components/common/H1';
-import H2 from '../components/common/H2';
-import H3 from '../components/common/H3';
-import setStyles from '../style';
+import Button from '../common/button';
+import BackButton from '../common/backButton';
+import H1 from '../common/H1';
+import H2 from '../common/H2';
+import H3 from '../common/H3';
+import setStyles from '../../style';
 import strftime from 'strftime';
-import ENV from '../environment';
-import GroupMembers from './groupMembers';
+import ENV from '../../environment';
+import GroupMembers from '../../main/groupMembers';
 import StarRating from 'react-native-star-rating';
 
 const ACCESS_TOKEN = 'access_token';
@@ -206,7 +206,17 @@ class EventDetails extends Component {
     let id = this.state.event.id
     let user_id = this.props.user.id
     try {
-      let response = await fetch(ENV.API + 'events/rating/' + id + '/' + user_id, { method: 'GET' });
+      let response = await fetch(ENV.API + 'events/show_rating', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          user: { id: user_id },
+          event: { id: id }
+        })
+      });
       let res = await response.json();
       console.log("Success: ", res);
       this.setState({ rating: res.rating[0].rating_score, averageRating: res.average })

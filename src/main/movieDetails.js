@@ -66,7 +66,7 @@ class MovieDetails extends Component {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          event_id: this.props.eventID,
+          event: { id: this.props.eventID },
           movie: this.props.movie["imdbID"]
         })
       });

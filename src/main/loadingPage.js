@@ -51,7 +51,10 @@ class LoadingPage extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.body}>
-          <Text>MovieNight</Text>
+          <View style={[styles.header, styles.center]}>
+            <Text style={styles.logo1}>Movie</Text>
+            <Text style={styles.logo2}>night</Text>
+          </View>
         </View>
       </View>
     );
@@ -60,7 +63,30 @@ class LoadingPage extends Component {
 
 const styles = StyleSheet.create({
   container : setStyles.container,
-  body: setStyles.body
+  body: {
+    flex: 1,
+    marginTop: 25,
+    alignItems: 'center',
+    margin: 10,
+    padding: 5,
+    borderRadius: 5
+  },
+  logo1: {
+    fontSize: 42,
+    fontFamily: 'Anton'
+  },
+  logo2: {
+    fontSize: 38,
+    fontFamily: 'Pacifico'
+  },
+  header: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  center: {
+    justifyContent: 'center',
+  },
 });
 
 module.exports = LoadingPage;
