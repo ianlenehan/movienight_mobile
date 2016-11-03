@@ -46,10 +46,16 @@ class NewEvent extends Component {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          location: this.state.location,
-          date: this.state.date,
-          group_id: this.props.group.id,
-          id: eventID
+          event: {
+            location: this.state.location,
+            date: this.state.date,
+            group_id: this.props.group.id,
+            id: eventID
+          },
+          user: {
+            access_token: this.props.user.access_token,
+            id: this.props.user.id
+          }
         })
       });
       let eventDetails = await response.json();

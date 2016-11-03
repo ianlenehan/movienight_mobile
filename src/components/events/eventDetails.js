@@ -219,7 +219,7 @@ class EventDetails extends Component {
       });
       let res = await response.json();
       console.log("Success: ", res);
-      this.setState({ rating: res.rating[0].rating_score, averageRating: res.average })
+      this.setState({ rating: res.rating.rating_score, averageRating: res.average })
     } catch(error) {
       console.log("error: ", error);
     }
@@ -262,6 +262,7 @@ class EventDetails extends Component {
           })
         });
         let res = await response.json();
+        this.setState({ averageRating: res.average })
         console.log("Success: ", res);
       } catch(error) {
         console.log("error: ", error);
