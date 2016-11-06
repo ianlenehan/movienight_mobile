@@ -32,11 +32,13 @@ class UserForm extends Component {
       errors: [],
       avatarSource: '',
       mode: '',
-      cloudinaryStatus: null
+      cloudinaryStatus: null,
+      buttonText: ''
     }
   }
 
   componentWillMount() {
+    this.setState({ buttonText: this.props.buttonText });
     if (this.props.user) {
       const { name_first, name_last, email, image } = this.props.user;
       this.setState({
@@ -64,7 +66,7 @@ class UserForm extends Component {
       )
     } else {
       return (
-        <Button text={this.props.buttonText} onPress={this.onPressButton.bind(this)} />
+        <Button text={this.state.buttonText} onPress={this.onPressButton.bind(this)} />
       )
     }
   }
@@ -78,6 +80,7 @@ class UserForm extends Component {
   }
 
   async onPressButton() {
+    this.setState({ buttonText: 'Connecting...' })
     try {
       let response = await fetch(ENV.API + 'users', {
         method: 'POST',

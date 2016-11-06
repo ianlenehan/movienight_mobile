@@ -22,7 +22,8 @@ class Login extends Component {
     this.state = {
       name: '',
       email: '',
-      error: ''
+      error: '',
+      buttonText: 'Log In'
     }
   }
 
@@ -53,7 +54,14 @@ class Login extends Component {
     }
   }
 
-  async onPressLogin() {
+  onPressLogin() {
+    if (this.state.buttonText === 'Log In') {
+      this.setState({ buttonText: 'Connecting...'} );
+      this.logUserIn();
+    }
+  }
+
+  async logUserIn() {
     try {
       let response = await fetch(ENV.API + 'login', {
         method: 'POST',
@@ -120,7 +128,7 @@ class Login extends Component {
             style={styles.input} placeholder="Password"
             secureTextEntry={true}
             />
-            <Button text={'Log In'} onPress={this.onPressLogin.bind(this)} />
+          <Button text={this.state.buttonText} onPress={this.onPressLogin.bind(this)} />
           </View>
 
           <View style={styles.footer}></View>
