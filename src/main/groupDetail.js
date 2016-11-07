@@ -101,7 +101,7 @@ class GroupDetail extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.imageWrap}>
-          <Image source={{uri: this.props.group.image}} style={styles.image} resizeMode='contain' />
+          <Image source={{uri: this.props.group.image}} style={styles.image} />
         </View>
 
         <H3 text={'Members'} />
@@ -139,16 +139,15 @@ const styles = StyleSheet.create({
     padding: 5
   },
   image: {
-    height: 150,
-    width: 275,
+    height: 160,
+    width: 300,
     borderRadius: 5
   },
   members: {
     flex: 1,
-    alignItems: 'center',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'space-between'
+    justifyContent: 'space-around'
   },
   events: {
     flex: 1,

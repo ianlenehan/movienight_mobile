@@ -53,12 +53,12 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end'
   },
   title: {
-    flex: 4,
+    flex: 8,
     alignItems: 'center',
     justifyContent: 'center'
   },
   text: {
-    fontSize: 20,
+    fontSize: 19,
     fontFamily: 'Codystar'
   },
   left: {

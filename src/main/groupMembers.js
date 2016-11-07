@@ -32,8 +32,10 @@ class GroupMembers extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: 'center'
+    alignItems: 'center',
+    justifyContent: 'center',
+    margin: 8,
+    height: 60
   },
   photo: {
     width: 45,
