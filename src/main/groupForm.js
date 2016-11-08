@@ -63,10 +63,12 @@ class GroupForm extends Component {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          name: this.state.groupName,
-          id: this.state.groupID,
-          image: this.state.groupImage,
-          user_id: this.props.user.id
+          group: {
+            group_name: this.state.groupName,
+            id: this.state.groupID,
+            image: this.state.groupImage
+          },
+          user: { id: this.props.user.id }
         })
       });
       let group = await response.json();

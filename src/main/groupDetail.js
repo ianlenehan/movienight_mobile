@@ -38,10 +38,16 @@ class GroupDetail extends Component {
   }
 
   async fetchEvents() {
-    let id = this.props.group.id;
     try {
-      let response = await fetch(ENV.API + 'groups/events/' + id, {
-        method: 'GET'
+      let response = await fetch(ENV.API + 'groups/events', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          group: { id: this.props.group.id }
+        })
       });
       let events = await response.json();
       this.setState({

@@ -41,9 +41,9 @@ class Group extends Component {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          user_id: request.user_id,
-          request_id: request.request,
-          group_id: this.props.group.id
+          user: { id: request.user_id },
+          request: { id: request.request },
+          group: { id: this.props.group.id }
         })
       });
 
@@ -53,6 +53,7 @@ class Group extends Component {
         res,
         [ { text: 'OK' } ]
       )
+    this.getGroupMembers();
     } catch(error) {
       console.log("Oops: ", error);
     }
@@ -94,9 +95,18 @@ class Group extends Component {
 
   async getGroupMembers() {
     try {
-      let groupID = this.props.group.id
-      let response = await fetch(ENV.API + 'groups/' + groupID + '/members', {
-        method: 'GET',
+      let response = await fetch(ENV.API + 'groups/members', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          user: this.state.user,
+          group: {
+            id: this.props.group.id
+          }
+        })
       });
       let res = await response.json();
       console.log(res);
