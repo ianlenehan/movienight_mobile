@@ -86,7 +86,7 @@ class UserSummary extends Component {
         <TouchableHighlight
           onPress={() => this.selectGroup(group)}
           key={index}
-          underlayColor="grey">
+          underlayColor={setStyles.primaryColor}>
           <Text style={setStyles.H2}>{group.group_name}</Text>
         </TouchableHighlight>
       );
@@ -104,7 +104,7 @@ class UserSummary extends Component {
         <TouchableHighlight
           onPress={() => this.selectEvent(event)}
           key={index}
-          underlayColor="grey">
+          underlayColor={setStyles.primaryColor}>
           <View style={styles.eventDetails}>
             <Text style={{flex: 3.7}}>{strftime('%a %b %d', date)}</Text>
             <Text style={{flex: 5}}>{groupName}</Text>

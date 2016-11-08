@@ -61,7 +61,7 @@ class GroupDetail extends Component {
           <TouchableHighlight
             onPress={() => this.selectEvent(event)}
             key={index}
-            underlayColor="grey">
+            underlayColor={setStyles.primaryColor}>
             <View style={styles.eventDetails}>
               <Text style={{flex: 3}}>Date {strftime('%a %b %d', date)}</Text>
               <Text style={{flex: 5}}>{event.location}</Text>

@@ -103,7 +103,7 @@ class EventDetails extends Component {
 
   back() {
     if (this.props.header) {
-      this.props.navigator.popN(2)
+      this.props.navigator.immediatelyResetRouteStack([{ name: 'userSummary' }]);
     } else {
       this.props.navigator.pop();
     }

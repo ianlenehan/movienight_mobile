@@ -61,7 +61,7 @@ class Groups extends Component {
 
   renderRow(rowData, sectionID, rowID) {
     return (
-      <TouchableHighlight underlayColor='gray' style={{height: 44}}
+      <TouchableHighlight underlayColor={setStyles.primaryColor} style={{height: 44}}
       onPress={() => this.selectGroup(rowData)}
       >
         <View>
