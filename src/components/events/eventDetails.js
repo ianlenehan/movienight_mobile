@@ -280,7 +280,7 @@ class EventDetails extends Component {
 
   render() {
     const { location, date } = this.state.event;
-    let formattedDate = new Date(Date.parse(date));
+    let formattedDate = strftime('%a %b %d at %H:%M %p', (new Date(Date.parse(date))));
     let poster = this.fixUrl(this.state.movie["Poster"]);
 
     return (
@@ -303,7 +303,7 @@ class EventDetails extends Component {
             <View style={styles.details}>
               <View style={styles.detailHalf}>
                 <Text style={{fontWeight: 'bold'}}>When</Text>
-                <Text>{strftime('%a %b %d at %H:%M %p', formattedDate)}</Text>
+                <Text>{date ? formattedDate : 'Loading...'}</Text>
                 <Text>  </Text>
                 <Text style={{fontWeight: 'bold'}}>Movie</Text>
                 <Text>{this.state.movie["Title"]}</Text>

@@ -26,7 +26,7 @@ class Group extends Component {
   }
 
   componentWillMount() {
-    this.setState({ user: this.props.user, isAdmin: false })
+    this.setState({ user: this.props.user })
     this.getGroupMembers();
     this.checkIsAdmin();
   }
