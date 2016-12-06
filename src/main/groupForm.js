@@ -118,6 +118,7 @@ class GroupForm extends Component {
             style={styles.input} placeholder="Group Name"
             autoCorrect={false}
             autoCapitalize={'none'}
+            returnKeyType={'done'}
             />
             <UploadImage uploading={this.uploading.bind(this)} handleUrl={this.handleCloudinaryUrl.bind(this)} />
             {this.renderButton()}

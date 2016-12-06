@@ -2,8 +2,6 @@ import React, { Component } from 'react'
 import {
   Text,
   StyleSheet,
-  TextInput,
-  TouchableHighlight,
   Platform,
   AsyncStorage,
   View

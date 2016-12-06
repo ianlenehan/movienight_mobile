@@ -107,6 +107,7 @@ class NewEvent extends Component {
           value={this.state.location}
           style={styles.input} placeholder="Location"
           autoCorrect={false}
+          returnKeyType={'done'}
           />
           <DatePickerIOS
           style={styles.picker}

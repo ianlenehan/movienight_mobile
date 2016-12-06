@@ -170,12 +170,14 @@ class UserForm extends Component {
         value={this.state.nameFirst}
         style={styles.input} placeholder="First Name"
         autoCorrect={false}
+        returnKeyType={'next'}
         />
         <TextInput
         onChangeText={(val) => {this.setState({ nameLast: val })}}
         value={this.state.nameLast}
         style={styles.input} placeholder="Last Name"
         autoCorrect={false}
+        returnKeyType={'next'}
         />
         <TextInput
         onChangeText={(val) => {this.setState({ email: val })}}
@@ -183,16 +185,19 @@ class UserForm extends Component {
         style={styles.input} placeholder="Email"
         autoCorrect={false}
         autoCapitalize={'none'}
+        returnKeyType={'next'}
         />
         <TextInput
         onChangeText={(val) => {this.setState({ password: val })}}
         style={styles.input} placeholder="Password"
         secureTextEntry={true}
+        returnKeyType={'next'}
         />
         <TextInput
         onChangeText={(val) => {this.setState({password_confirmation:val})}}
         style={styles.input} placeholder="Password Comfirmation"
         secureTextEntry={true}
+        returnKeyType={'done'}
         />
 
         <UploadImage uploading={this.uploading.bind(this)} handleUrl={this.handleCloudinaryUrl.bind(this)} />

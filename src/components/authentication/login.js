@@ -122,11 +122,13 @@ class Login extends Component {
             style={styles.input} placeholder="Email"
             autoCorrect={false}
             autoCapitalize={'none'}
+            returnKeyType={'next'}
             />
             <TextInput
             onChangeText={(val) => {this.setState({ password: val })}}
             style={styles.input} placeholder="Password"
             secureTextEntry={true}
+            returnKeyType={'done'}
             />
           <Button text={this.state.buttonText} onPress={this.onPressLogin.bind(this)} />
           </View>
