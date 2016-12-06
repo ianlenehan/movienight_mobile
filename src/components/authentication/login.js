@@ -123,8 +123,12 @@ class Login extends Component {
             autoCorrect={false}
             autoCapitalize={'none'}
             returnKeyType={'next'}
+            onSubmitEditing={(event) => {
+              this.refs.password.focus();
+            }}
             />
             <TextInput
+            ref='password'
             onChangeText={(val) => {this.setState({ password: val })}}
             style={styles.input} placeholder="Password"
             secureTextEntry={true}
