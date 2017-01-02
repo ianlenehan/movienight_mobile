@@ -3,6 +3,7 @@ import {
   Text,
   View,
   StyleSheet,
+  ScrollView,
   Alert,
   AsyncStorage
 } from 'react-native';
@@ -203,7 +204,7 @@ class Group extends Component {
             />
         </View>
         <View style={styles.body}>
-          {this.checkIsAMember()}
+            {this.checkIsAMember()}
         </View>
       </View>
     );

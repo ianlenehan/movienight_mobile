@@ -28,11 +28,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderWidth: 1,
     borderRadius: 3,
-    padding: 8,
+    padding: 5,
     borderColor: setStyles.primaryColor,
     margin: 5,
-    width: 150,
-    height: 45,
+    width: 130,
+    height: 35,
     backgroundColor: setStyles.primaryColor
   },
   buttonText: {

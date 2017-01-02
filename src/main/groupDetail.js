@@ -4,6 +4,7 @@ import {
   Text,
   Image,
   StyleSheet,
+  ScrollView,
   TouchableHighlight,
   AsyncStorage
 } from 'react-native';
@@ -13,6 +14,7 @@ import ENV from '../environment';
 import strftime from 'strftime';
 import H3 from '../components/common/H3';
 import GroupMembers from './groupMembers';
+import DeviceInfo from 'react-native-device-info';
 
 class GroupDetail extends Component {
   constructor(props) {
@@ -103,28 +105,42 @@ class GroupDetail extends Component {
     });
   }
 
-  render() {
-    return (
-      <View style={styles.container}>
+  groupImage() {
+    const deviceModel = DeviceInfo.getModel();
+    console.log(deviceModel);
+    const isiPhone = deviceModel.slice(0, 6) === "iPhone"
+    if (isiPhone) {
+      return (
         <View style={styles.imageWrap}>
           <Image source={{uri: this.props.group.image}} style={styles.image} />
         </View>
+      )
+    }
+  }
 
+  render() {
+    return (
+      <ScrollView contentContainerStyle={styles.container}>
+        {this.groupImage()}
         <H3 text={'Members'} />
-        <View style={[styles.members, styles.module]}>
-          {this.renderMembers()}
+        <View style={styles.module}>
+          <ScrollView contentContainerStyle={styles.members}>
+            {this.renderMembers()}
+          </ScrollView>
         </View>
 
         <H3 text={'Recent Events'} />
         <View style={[styles.events, styles.module]}>
-          <View>
-            {this.renderEvents()}
-          </View>
+          <ScrollView>
+            <View>
+              {this.renderEvents()}
+            </View>
+          </ScrollView>
           <View style={styles.buttonView}>
             <Button text={'New Event'} onPress={this.newEvent.bind(this)} />
           </View>
         </View>
-      </View>
+      </ScrollView>
     );
   }
 };
@@ -137,7 +153,8 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: '#FFD98C',
     borderRadius: 5,
-    margin: 5
+    margin: 5,
+    flex: 1
   },
   imageWrap: {
     flex: 1,
@@ -150,7 +167,6 @@ const styles = StyleSheet.create({
     borderRadius: 5
   },
   members: {
-    flex: 1,
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-around'

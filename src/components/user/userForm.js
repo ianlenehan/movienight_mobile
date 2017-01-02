@@ -216,9 +216,8 @@ class UserForm extends Component {
         returnKeyType={'done'}
         />
 
-        <UploadImage uploading={this.uploading.bind(this)} handleUrl={this.handleCloudinaryUrl.bind(this)} />
-
-        <View style={{alignItems: 'center'}}>
+      <View style={styles.buttons}>
+          <UploadImage uploading={this.uploading.bind(this)} handleUrl={this.handleCloudinaryUrl.bind(this)} />
           {this.renderButton()}
         </View>
 
@@ -240,7 +239,12 @@ const styles = StyleSheet.create({
   input: setStyles.input,
   logo1: setStyles.logo1,
   logo2: setStyles.logo2,
-  logoView: setStyles.logoView
+  logoView: setStyles.logoView,
+  buttons: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row'
+  }
 })
 
 module.exports = UserForm;

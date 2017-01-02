@@ -6,7 +6,8 @@ import {
   AsyncStorage
 } from 'react-native';
 import setStyles from '../style';
-import ENV from '../environment'
+import ENV from '../environment';
+import Logo from '../components/common/logo';
 
 const ACCESS_TOKEN = 'access_token';
 
@@ -51,10 +52,7 @@ class LoadingPage extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.body}>
-          <View style={[styles.header, styles.center]}>
-            <Text style={styles.logo1}>Movie</Text>
-            <Text style={styles.logo2}>night</Text>
-          </View>
+          <Logo />
         </View>
       </View>
     );

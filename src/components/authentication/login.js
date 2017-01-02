@@ -13,6 +13,7 @@ import Button from '../common/button';
 import BackButton from '../common/backButton';
 import setStyles from '../../style';
 import ENV from '../../environment';
+import Logo from '../common/logo';
 
 const ACCESS_TOKEN = 'access_token'
 
@@ -111,10 +112,7 @@ class Login extends Component {
         </View>
 
         <View style={styles.body}>
-          <View style={styles.logoView}>
-            <Text style={styles.logo1}>Movie</Text>
-            <Text style={styles.logo2}>night</Text>
-          </View>
+          <Logo />
 
           <View style={styles.middle}>
             <TextInput
@@ -163,11 +161,8 @@ const styles = StyleSheet.create({
   },
   module: setStyles.module,
   header: setStyles.header,
-  logoView: setStyles.logoView,
   footer: setStyles.container,
   input: setStyles.input,
-  logo1: setStyles.logo1,
-  logo2: setStyles.logo2
 })
 
 module.exports = Login;

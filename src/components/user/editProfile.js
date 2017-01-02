@@ -10,6 +10,7 @@ import Button from '../common/button';
 import BackButton from '../common/backButton';
 import setStyles from '../../style';
 import UploadImage from '../common/uploadImage';
+import Logo from '../common/logo';
 import UserForm from '../user/userForm';
 
 class EditProfile extends Component {
@@ -46,10 +47,7 @@ class EditProfile extends Component {
 
         <View style={styles.body}>
 
-          <View style={styles.logoView}>
-            <Text style={styles.logo1}>Movie</Text>
-            <Text style={styles.logo2}>night</Text>
-          </View>
+          <Logo size='small'/>
 
           <View>
             <UserForm buttonText={'Update'} user={this.props.user} navigator={this.props.navigator} update={this.updateUserSummary.bind(this)}/>

@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Alert,
   TouchableHighlight,
+  ScrollView,
   AsyncStorage
 } from 'react-native';
 import Button from '../common/button';
@@ -13,6 +14,7 @@ import BackButton from '../common/backButton';
 import H1 from '../common/H1';
 import H2 from '../common/H2';
 import H3 from '../common/H3';
+import H4 from '../common/H4';
 import setStyles from '../../style';
 import strftime from 'strftime';
 import ENV from '../../environment';
@@ -294,59 +296,61 @@ class EventDetails extends Component {
         </View>
 
         <View style={styles.body}>
-          <View style={[styles.module, styles.top]}>
-            <View style={{alignItems: 'center'}}>
-              <H1 text={location} />
-              <H2 text={this.state.group.group_name} />
-            </View>
-
-            <View style={styles.details}>
-              <View style={styles.detailHalf}>
-                <Text style={{fontWeight: 'bold'}}>When</Text>
-                <Text>{date ? formattedDate : 'Loading...'}</Text>
-                <Text>  </Text>
-                <Text style={{fontWeight: 'bold'}}>Movie</Text>
-                <Text>{this.state.movie["Title"]}</Text>
-                <Text>  </Text>
-                {this.attendance()}
-                {this.renderButton()}
+            <View style={[styles.module, styles.top]}>
+              <View style={{alignItems: 'center'}}>
+                <H2 text={location} />
+                <H4 text={this.state.group.group_name} />
               </View>
-              <TouchableHighlight
-                onPress={this.showMovieDetails.bind(this)}
-                style={styles.imageHalf}
-                underlayColor='transparent'
-                >
-                <Image
-                  source={{uri: poster}}
-                  style={styles.image}
-                  resizeMode='contain'
-                  />
-              </TouchableHighlight>
+
+              <ScrollView contentContainerStyle={styles.details}>
+                <View style={styles.detailHalf}>
+                  <Text style={{fontWeight: 'bold'}}>When</Text>
+                  <Text>{date ? formattedDate : 'Loading...'}</Text>
+                  <Text>  </Text>
+                  <Text style={{fontWeight: 'bold'}}>Movie</Text>
+                  <Text>{this.state.movie["Title"]}</Text>
+                  <Text>  </Text>
+                  {this.attendance()}
+                  {this.renderButton()}
+                </View>
+                <TouchableHighlight
+                  onPress={this.showMovieDetails.bind(this)}
+                  style={styles.imageHalf}
+                  underlayColor='transparent'
+                  >
+                  <Image
+                    source={{uri: poster}}
+                    style={styles.image}
+                    resizeMode='contain'
+                    />
+                </TouchableHighlight>
+              </ScrollView>
             </View>
-          </View>
-          <H3 text={'Attendees'} />
-          <View style={[styles.module, styles.attendees]}>
-            {this.renderMembers()}
-          </View>
-          <View style={styles.starsView}>
-            <Text style={styles.ratingText}>
-              Rate Event:
-            </Text>
-            <View style={styles.stars}>
-              <StarRating
-                disabled={false}
-                maxStars={5}
-                rating={this.state.rating}
-                selectedStar={(rating) => this.onStarRatingPress(rating)}
-                starColor={setStyles.redColor}
-                emptyStarColor={setStyles.secondaryColor}
-                emptyStar={'star'}
-                fullStar={'star'}
-                starSize={25}
-              />
+            <H3 text={'Attendees'} />
+            <View style={[styles.module, styles.attendees]}>
+              <ScrollView>
+                {this.renderMembers()}
+              </ScrollView>
             </View>
-          <Text style={styles.avgRating}>Average Rating: {this.state.averageRating}</Text>
-          </View>
+            <View style={styles.starsView}>
+              <Text style={styles.ratingText}>
+                Rate Event:
+              </Text>
+              <View style={styles.stars}>
+                <StarRating
+                  disabled={false}
+                  maxStars={5}
+                  rating={this.state.rating}
+                  selectedStar={(rating) => this.onStarRatingPress(rating)}
+                  starColor={setStyles.redColor}
+                  emptyStarColor={setStyles.secondaryColor}
+                  emptyStar={'star'}
+                  fullStar={'star'}
+                  starSize={25}
+                />
+              </View>
+            <Text style={styles.avgRating}>Average Rating: {this.state.averageRating}</Text>
+            </View>
         </View>
       </View>
     );
@@ -367,11 +371,11 @@ const styles = StyleSheet.create({
     flex: 1
   },
   top: {
-    flex: 2
+    flex: 2.8
   },
   image: {
-    width: 200,
-    height: 200
+    width: 170,
+    height: 170
   },
   detailHalf: {
     justifyContent: 'flex-end',

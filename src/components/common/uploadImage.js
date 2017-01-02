@@ -160,15 +160,17 @@ export default class UploadImage extends Component {
 const styles = StyleSheet.create({
   container: setStyles.container,
   imageButton: {
-    height: 50,
+    height: 35,
     marginTop: 10,
     marginBottom: 10,
     padding: 4,
     borderRadius: 5,
+    width: 130,
     backgroundColor: setStyles.primaryColor,
-    justifyContent: 'center'
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   buttonText: {
-    fontSize: 18
+    fontSize: 14
   }
 })

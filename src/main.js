@@ -1,8 +1,5 @@
 import React, { Component } from 'react'
-import {
-  Navigator,
-  StyleSheet
-} from 'react-native';
+import { Navigator, StyleSheet } from 'react-native';
 
 import authButtons from './components/authentication/authButtons';
 import setStyles from './style';
@@ -38,7 +35,6 @@ const routes = {
   imagePicker: ImagePicker,
   editProfile: EditProfile
 }
-
 
 class Main extends Component {
   renderScene(route, navigator) {

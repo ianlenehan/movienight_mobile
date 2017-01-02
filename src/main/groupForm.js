@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
   middle: {
     flex: 4,
     padding: 10,
-    alignItems: 'stretch',
+    alignItems: 'center',
     justifyContent: 'center'
   },
   header: setStyles.container,

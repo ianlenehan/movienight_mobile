@@ -5,7 +5,8 @@ import {
   StyleSheet,
   Image,
   AsyncStorage,
-  TouchableHighlight
+  TouchableHighlight,
+  ScrollView
 } from 'react-native';
 import setStyles from '../style';
 import Button from '../components/common/button';
@@ -19,7 +20,7 @@ class UserSummary extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      user: {},
+      user: {image: '../img/user.png'},
       groups: [],
       events: []
     }
@@ -58,13 +59,13 @@ class UserSummary extends Component {
   async getToken() {
     let token;
     try {
-      let token = await AsyncStorage.getItem(ACCESS_TOKEN);
+      token = await AsyncStorage.getItem(ACCESS_TOKEN);
       this.fetchUserDetails(token);
       console.log("token is: " + token);
     } catch (error) {
       console.log("something went wrong");
     }
-    token
+    return token
   }
 
   onLogoutPress() {
@@ -182,43 +183,37 @@ class UserSummary extends Component {
     });
   }
 
-  profileImage() {
-    if (this.state.user.image) {
-      return (
-        <Image style={styles.photo} source={{uri: this.state.user.image}} />
-      )
-    } else {
-      return (
-        <Image style={styles.photo} source={require('../img/user.png')} />
-      )
-    }
-  }
-
   render() {
     const { user } = this.state;
     return (
-      <View style={styles.container}>
-        <View style={[styles.profile, styles.module]}>
-          {this.profileImage()}
-          <Text style={styles.name}>{user.name_first} {user.name_last}</Text>
-        </View>
-        <H3 text={'My Groups'} />
-        <View style={[styles.groups, styles.module]}>
-          {this.renderGroups()}
-          <View style={styles.buttonView}>
-            <Button text={'Find Groups'} onPress={this.findGroups.bind(this)} />
-            <Button text={'Create Group'} onPress={this.createGroup.bind(this)} />
+      <ScrollView contentContainerStyle={styles.container}>
+          <View style={[styles.profile, styles.module]}>
+            <ScrollView contentContainerStyle={{alignItems: 'center'}}>
+              <Image style={styles.photo} source={{uri: this.state.user.image}} />
+              <Text style={styles.name}>{user.name_first} {user.name_last}</Text>
+            </ScrollView>
           </View>
-        </View>
-        <H3 text={'Latest Events'} />
-        <View style={[styles.events, styles.module]}>
-          {this.renderEvents()}
-        </View>
-        <View style={[styles.userButtons, styles.module]}>
-          <Button text={'Logout'} onPress={this.onLogoutPress.bind(this)} />
-          <Button text={'Edit Profile'} onPress={this.editProfile.bind(this)} />
-        </View>
-      </View>
+          <H3 text={'My Groups'} />
+          <View style={[styles.groups, styles.module]}>
+            <ScrollView contentContainerStyle={{alignItems: 'center'}}>
+              {this.renderGroups()}
+            </ScrollView>
+            <View style={styles.buttonView}>
+              <Button text={'Find Groups'} onPress={this.findGroups.bind(this)} />
+              <Button text={'Create Group'} onPress={this.createGroup.bind(this)} />
+            </View>
+          </View>
+          <H3 text={'Latest Events'} />
+          <View style={styles.events}>
+            <ScrollView>
+              {this.renderEvents()}
+            </ScrollView>
+          </View>
+          <View style={[styles.userButtons, styles.module]}>
+            <Button text={'Logout'} onPress={this.onLogoutPress.bind(this)} />
+            <Button text={'Edit Profile'} onPress={this.editProfile.bind(this)} />
+          </View>
+      </ScrollView>
     );
   }
 };
@@ -241,13 +236,17 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   groups: {
-    flex: 1.5,
-    justifyContent: 'space-between',
+    flex: 1,
+    justifyContent: 'space-around',
     alignItems: 'center'
   },
   events: {
     flex: 1,
-    justifyContent: 'flex-start'
+    justifyContent: 'flex-start',
+    padding: 10,
+    backgroundColor: '#FFD98C',
+    borderRadius: 5,
+    margin: 5
   },
   eventDetails: {
     flex: 1,
@@ -255,7 +254,7 @@ const styles = StyleSheet.create({
     paddingBottom: 5
   },
   userButtons: {
-    flex: 0.5,
+    flex: 0.3,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center'

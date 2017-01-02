@@ -12,6 +12,7 @@ import H1 from '../common/H1';
 import setStyles from '../../style';
 import UploadImage from '../common/uploadImage';
 import UserForm from '../user/userForm';
+import Logo from '../common/logo';
 
 class Register extends Component {
   constructor() {
@@ -43,12 +44,9 @@ class Register extends Component {
 
         <View style={styles.body}>
 
-          <View style={styles.logoView}>
-            <Text style={styles.logo1}>Movie</Text>
-            <Text style={styles.logo2}>night</Text>
-          </View>
+          <Logo size={'small'}/>
 
-          <View>
+          <View style={{flex: 8}}>
             <UserForm navigator={this.props.navigator} buttonText={'Sign Up'} />
           </View>
 

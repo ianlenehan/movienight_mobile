@@ -17,11 +17,11 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>0.3</string>
+	<string>0.5</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>6</string>
+	<string>9</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>LSRequiresIPhoneOS</key>
@@ -49,6 +49,8 @@
 	<string>Access to your calendar to add Movie Night events.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Access to your camera so you can upload a group or profile photo.</string>
+	<key>NSMainNibFile</key>
+	<string>LaunchScreen</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Access to your camera so you can upload a group or profile photo.</string>
 	<key>UIAppFonts</key>
