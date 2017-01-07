@@ -13,7 +13,8 @@ import H3 from '../components/common/H3';
 
 class GroupMembers extends Component {
   profileImage() {
-    if (this.props.member.image !== null) {
+    const photo = this.props.member.image
+    if (photo) {
       return <Image style={styles.photo} source={{uri: this.props.member.image}} />
     } else {
       return <Image style={styles.photo} source={require('../img/user.png')} />

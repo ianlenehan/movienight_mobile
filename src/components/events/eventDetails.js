@@ -38,7 +38,7 @@ class EventDetails extends Component {
     }
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.getToken();
   }
 
@@ -221,7 +221,8 @@ class EventDetails extends Component {
       });
       let res = await response.json();
       console.log("Success: ", res);
-      this.setState({ rating: res.rating.rating_score, averageRating: res.average })
+      const rating = res.rating || 0
+      this.setState({ rating: rating.rating_score, averageRating: res.average })
     } catch(error) {
       console.log("error: ", error);
     }
@@ -327,8 +328,8 @@ class EventDetails extends Component {
               </ScrollView>
             </View>
             <H3 text={'Attendees'} />
-            <View style={[styles.module, styles.attendees]}>
-              <ScrollView>
+            <View style={styles.module}>
+              <ScrollView contentContainerStyle={styles.attendees}>
                 {this.renderMembers()}
               </ScrollView>
             </View>
@@ -361,14 +362,22 @@ const styles = StyleSheet.create({
   container: setStyles.container,
   header: setStyles.header,
   body: setStyles.bodyOther,
-  module: setStyles.module,
+  module: {
+    padding: 10,
+    backgroundColor: '#FFD98C',
+    borderRadius: 5,
+    margin: 5,
+    flex: 1
+  },
   details: {
     flex: 1.5,
     alignItems: 'center',
     flexDirection: 'row'
   },
   attendees: {
-    flex: 1
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around'
   },
   top: {
     flex: 2.8

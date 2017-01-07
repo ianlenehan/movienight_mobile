@@ -232,7 +232,7 @@ const styles = StyleSheet.create({
   module: setStyles.module,
   profile: {
     flex: 1,
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
     alignItems: 'center'
   },
   groups: {
@@ -263,14 +263,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row'
   },
   photo: {
-    width: 80,
-    height: 80,
-    borderRadius: 80/2,
+    width: 100,
+    height: 100,
+    borderRadius: 100 / 2,
     paddingHorizontal: 20
   },
   name: {
     flex: 3,
-    fontSize: 18,
+    fontSize: 16,
     padding: 10
   }
 });

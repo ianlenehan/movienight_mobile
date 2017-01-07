@@ -135,7 +135,7 @@ class Group extends Component {
   isNotAMember() {
     return (
       <View style={styles.requestBody}>
-        <Button text={'Request to Join'} onPress={this.joinRequest.bind(this)} />
+        <Button text={'Request to Join'} onPress={this.joinRequest.bind(this)} size={'large'} />
       </View>
     );
   }

@@ -5,7 +5,8 @@ import {
   TextInput,
   TouchableHighlight,
   DatePickerIOS,
-  View
+  View,
+  Alert,
 } from 'react-native';
 import Button from '../common/button';
 import BackButton from '../common/backButton';
@@ -70,6 +71,10 @@ class NewEvent extends Component {
     this.props.navigator.pop();
   }
 
+  goToSummaryPage() {
+    this.props.navigator.immediatelyResetRouteStack([{ name: 'userSummary' }]);
+  }
+
   viewEvent(eventDetails) {
     if (this.props.header === 'New Event') {
       this.props.navigator.push({
@@ -92,6 +97,41 @@ class NewEvent extends Component {
       return 'Create Event'
     } else {
       return 'Update Event'
+    }
+  }
+
+  deleteEventButton() {
+    if (this.props.event) {
+      return (
+        <Button text={'Delete Event'} onPress={this.deleteEvent.bind(this)} />
+      )
+    }
+  }
+
+  async deleteEvent() {
+    const event =  this.props.event;
+    try {
+      let response = await fetch(ENV.API + 'events/destroy', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          event: {
+            id: event.id
+          },
+        })
+      });
+      let res = await response.text();
+      this.goToSummaryPage();
+      Alert.alert("Boom", res,
+        [
+          { text: 'OK' },
+        ]
+      )
+    } catch(errors) {
+      console.log("Error: ", errors);
     }
   }
 
@@ -119,6 +159,7 @@ class NewEvent extends Component {
           />
           <View style={styles.buttons}>
             <Button text={this.buttonText()} onPress={this.onPressCreate.bind(this)} />
+            {this.deleteEventButton()}
           </View>
         </View>
       </View>

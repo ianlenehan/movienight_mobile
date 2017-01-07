@@ -112,7 +112,6 @@ class Login extends Component {
         </View>
 
         <View style={styles.body}>
-          <Logo />
 
           <View style={styles.middle}>
             <TextInput
@@ -134,6 +133,8 @@ class Login extends Component {
             />
           <Button text={this.state.buttonText} onPress={this.onPressLogin.bind(this)} />
           </View>
+
+          <Logo />
 
           <View style={styles.footer}></View>
         </View>

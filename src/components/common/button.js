@@ -7,10 +7,18 @@ import {
 import setStyles from '../../style'
 
 class Button extends Component {
+  buttonWidth() {
+    let style = styles.button;
+    if (this.props.size === 'large') {
+      style = styles.buttonLarge
+    }
+    return style;
+  }
+
   render() {
     return (
       <TouchableHighlight
-      style={styles.button}
+      style={this.buttonWidth()}
       underlayColor={setStyles.secondaryColor}
       onPress={this.props.onPress}
       >
@@ -32,6 +40,18 @@ const styles = StyleSheet.create({
     borderColor: setStyles.primaryColor,
     margin: 5,
     width: 130,
+    height: 35,
+    backgroundColor: setStyles.primaryColor
+  },
+  buttonLarge: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderRadius: 3,
+    padding: 5,
+    borderColor: setStyles.primaryColor,
+    margin: 5,
+    width: 260,
     height: 35,
     backgroundColor: setStyles.primaryColor
   },

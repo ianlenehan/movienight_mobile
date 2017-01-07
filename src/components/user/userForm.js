@@ -227,7 +227,12 @@ class UserForm extends Component {
 }
 
 const styles = StyleSheet.create({
-  container: setStyles.container,
+  container: {
+    flex: 1,
+    alignItems: 'stretch',
+    justifyContent: 'flex-start',
+    paddingBottom: 15
+  },
   header: setStyles.header,
   body: {
     flex: 10,

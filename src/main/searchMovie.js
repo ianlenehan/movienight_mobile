@@ -30,6 +30,12 @@ class SearchMovie extends Component {
     }
   }
 
+  componentDidMount() {
+    let listViewScrollView = this.refs.listView.getScrollResponder();
+    listViewScrollView.scrollTo({y: -15});
+    listViewScrollView.scrollTo({y: 0});
+  }
+
   fixSearchString(string) {
     title = string.split(' ').join('+');
     return title;
@@ -127,7 +133,7 @@ class SearchMovie extends Component {
         </View>
 
         <View style={styles.body}>
-          <ListView dataSource={this.state.dataSource} renderRow={this.renderRow.bind(this)}
+          <ListView ref="listView" dataSource={this.state.dataSource} renderRow={this.renderRow.bind(this)}
           renderHeader={() =>
             <TextInput
             style={styles.search}

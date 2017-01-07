@@ -43,12 +43,11 @@ class Register extends Component {
         </View>
 
         <View style={styles.body}>
-
-          <Logo size={'small'}/>
-
           <View style={{flex: 8}}>
             <UserForm navigator={this.props.navigator} buttonText={'Sign Up'} />
           </View>
+
+          <Logo size={'small'}/>
 
         </View>
       </View>
@@ -64,7 +63,7 @@ const styles = StyleSheet.create({
     marginTop: 25,
     margin: 10,
     padding: 5,
-    backgroundColor: setStyles.secondaryColor
+    backgroundColor: setStyles.secondaryColor,
   },
   input: setStyles.input,
   logo1: setStyles.logo1,
