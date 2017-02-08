@@ -46,12 +46,12 @@ class EditProfile extends Component {
         </View>
 
         <View style={styles.body}>
-
-          <Logo size='small'/>
-
+          
           <View>
             <UserForm buttonText={'Update'} user={this.props.user} navigator={this.props.navigator} update={this.updateUserSummary.bind(this)}/>
           </View>
+
+          <Logo size='small'/>
 
         </View>
       </View>

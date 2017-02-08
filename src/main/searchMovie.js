@@ -32,8 +32,8 @@ class SearchMovie extends Component {
 
   componentDidMount() {
     let listViewScrollView = this.refs.listView.getScrollResponder();
-    listViewScrollView.scrollTo({y: -15});
-    listViewScrollView.scrollTo({y: 0});
+    listViewScrollView.scrollTo({y: -10});
+    // listViewScrollView.scrollTo({y: 0});
   }
 
   fixSearchString(string) {
@@ -139,7 +139,10 @@ class SearchMovie extends Component {
             style={styles.search}
             placeholder="Search..."
             value={this.state.searchText}
-            onChangeText={(text) => this.setState({searchText: text})}/>
+            onChangeText={(text) => this.setState({searchText: text})}
+            returnKeyType={'search'}
+            onSubmitEditing={this.searchOMDB.bind(this)}
+            />
           }
           />
           <View style={{alignItems: 'center'}}>

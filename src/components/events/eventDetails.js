@@ -20,6 +20,9 @@ import strftime from 'strftime';
 import ENV from '../../environment';
 import GroupMembers from '../../main/groupMembers';
 import StarRating from 'react-native-star-rating';
+import DeviceInfo from 'react-native-device-info';
+import RNCalendarEvents from 'react-native-calendar-events';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const ACCESS_TOKEN = 'access_token';
 
@@ -34,7 +37,7 @@ class EventDetails extends Component {
       group: '',
       token: '',
       rating: 0,
-      averageRating: 0
+      averageRating: 0,
     }
   }
 
@@ -281,10 +284,87 @@ class EventDetails extends Component {
     }
   }
 
+  moviePoster() {
+    const poster = this.fixUrl(this.state.movie["Poster"]);
+    const deviceModel = DeviceInfo.getModel();
+    const isiPad = deviceModel.slice(0, 6) === "iPad"
+
+    if (!isiPad) {
+      return (
+        <TouchableHighlight
+          onPress={this.showMovieDetails.bind(this)}
+          style={styles.imageHalf}
+          underlayColor='transparent'
+          >
+          <Image
+            source={{uri: poster}}
+            style={styles.poster}
+            resizeMode='contain'
+            />
+        </TouchableHighlight>
+      )
+    }
+  }
+
+  checkCalendarAuthorization() {
+    RNCalendarEvents.authorizationStatus()
+      .then(status => {
+        this._authorizeCalendar()
+      })
+      .catch(error => {
+       console.log("Error", error);
+      });
+  }
+
+  _authorizeCalendar() {
+    RNCalendarEvents.authorizeEventStore()
+      .then(status => {
+        this._addToCalendar()
+      })
+      .catch(error => {
+       console.log("Error", error);
+      });
+  }
+
+  _addToCalendar() {
+    const title = "MovieNight Event"
+    const startDate = this.state.event.date
+    const tempDate = new Date(this.state.event.date)
+    const endDate = new Date(tempDate.setHours(tempDate.getHours()+2))
+    const settings = {
+      location: this.state.event.location,
+      startDate,
+      endDate: endDate.toISOString()
+    }
+    RNCalendarEvents.saveEvent(title, settings)
+      .then(id => {
+        Alert.alert(
+          settings.location,
+          "This MovieNight event has been added to your calendar!",
+          [ {text: 'Cool'} ]
+        )
+      })
+      .catch(error => {
+       console.log("Error", error);
+      });
+  }
+
+  calendarButton() {
+    return (
+      <TouchableHighlight 
+        onPress={this.checkCalendarAuthorization.bind(this)}
+        underlayColor='transparent'
+        >
+        <Icon
+          style={{paddingTop: 10, paddingBottom: 10}}
+          name="calendar-plus-o" size={20} color="black" />
+      </TouchableHighlight>
+    )
+  }
+
   render() {
     const { location, date } = this.state.event;
-    let formattedDate = strftime('%a %b %d at %H:%M %p', (new Date(Date.parse(date))));
-    let poster = this.fixUrl(this.state.movie["Poster"]);
+    let formattedDate = strftime('%a %b %d at %l:%M %p', (new Date(Date.parse(date))));
 
     return (
       <View style={styles.container}>
@@ -307,24 +387,16 @@ class EventDetails extends Component {
                 <View style={styles.detailHalf}>
                   <Text style={{fontWeight: 'bold'}}>When</Text>
                   <Text>{date ? formattedDate : 'Loading...'}</Text>
-                  <Text>  </Text>
+                  {this.calendarButton()}
                   <Text style={{fontWeight: 'bold'}}>Movie</Text>
                   <Text>{this.state.movie["Title"]}</Text>
                   <Text>  </Text>
                   {this.attendance()}
                   {this.renderButton()}
                 </View>
-                <TouchableHighlight
-                  onPress={this.showMovieDetails.bind(this)}
-                  style={styles.imageHalf}
-                  underlayColor='transparent'
-                  >
-                  <Image
-                    source={{uri: poster}}
-                    style={styles.image}
-                    resizeMode='contain'
-                    />
-                </TouchableHighlight>
+
+                {this.moviePoster()}
+
               </ScrollView>
             </View>
             <H3 text={'Attendees'} />
@@ -382,9 +454,9 @@ const styles = StyleSheet.create({
   top: {
     flex: 2.8
   },
-  image: {
-    width: 170,
-    height: 170
+  poster: {
+    width: 200,
+    height: 200
   },
   detailHalf: {
     justifyContent: 'flex-end',

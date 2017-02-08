@@ -35,6 +35,7 @@
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		216951A5DA624FDB96373E66 /* libRNDeviceInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 66623B8136794B0F8AF7497B /* libRNDeviceInfo.a */; };
 		226D0F8FF1E5445E8EFC1301 /* libReactNativePermissions.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F3456C067D97439ABAA947EE /* libReactNativePermissions.a */; };
+		5DD05D9E02FC4BFAAC96FEAA /* libRNCalendarEvents.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 57F34D087F5845E0B1A24F76 /* libRNCalendarEvents.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		832F0E6204974FC085D51657 /* libReactNativeConfig.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BEDE5EB63CC4BFDB7BC9DBA /* libReactNativeConfig.a */; };
 		BEAE262B00AE48B4AA7A9A85 /* libRNVectorIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B5F953C745554C04A78C5FDF /* libRNVectorIcons.a */; };
@@ -90,6 +91,13 @@
 			proxyType = 2;
 			remoteGlobalIDString = DA5891D81BA9A9FC002B4DB2;
 			remoteInfo = RNDeviceInfo;
+		};
+		069C623D1E4B166800DD9597 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0B05905B9EAA41DDB4EED0EB /* RNCalendarEvents.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BEC43C6A1C723089001221C6;
+			remoteInfo = RNCalendarEvents;
 		};
 		06E528101D9BE3F000BC10D2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -185,6 +193,7 @@
 		06E528121DA9B73300BC10D2 /* RCTCameraRoll.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTCameraRoll.xcodeproj; path = "../node_modules/react-native/Libraries/CameraRoll/RCTCameraRoll.xcodeproj"; sourceTree = "<group>"; };
 		06E5283F1DABAA9E00BC10D2 /* Pacifico.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Pacifico.ttf; sourceTree = "<group>"; };
 		06E528411DABAAAC00BC10D2 /* Anton.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Anton.ttf; sourceTree = "<group>"; };
+		0B05905B9EAA41DDB4EED0EB /* RNCalendarEvents.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNCalendarEvents.xcodeproj; path = "../node_modules/react-native-calendar-events/RNCalendarEvents.xcodeproj"; sourceTree = "<group>"; };
 		124C3D0010C047BD90B72AE9 /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
 		139105B61AF99BAD00B5F7CC /* RCTSettings.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTSettings.xcodeproj; path = "../node_modules/react-native/Libraries/Settings/RCTSettings.xcodeproj"; sourceTree = "<group>"; };
 		139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWebSocket.xcodeproj; path = "../node_modules/react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj"; sourceTree = "<group>"; };
@@ -199,6 +208,7 @@
 		16C9FD365DF04AC5AA6371B4 /* ReactNativePermissions.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = ReactNativePermissions.xcodeproj; path = "../node_modules/react-native-permissions/ReactNativePermissions.xcodeproj"; sourceTree = "<group>"; };
 		43ADF9920F60402B8168C50F /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
 		49224A03596F4D5CB4B74AF3 /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
+		57F34D087F5845E0B1A24F76 /* libRNCalendarEvents.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNCalendarEvents.a; sourceTree = "<group>"; };
 		5B284FDDAA1E4D319C3A315D /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		5BF853C5E4C14683BD4CE55F /* ReactNativeConfig.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeConfig.xcodeproj; path = "../node_modules/react-native-config/ios/ReactNativeConfig.xcodeproj"; sourceTree = "<group>"; };
 		633828AC99A245A6A6D966C8 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
@@ -245,6 +255,7 @@
 				BEAE262B00AE48B4AA7A9A85 /* libRNVectorIcons.a in Frameworks */,
 				226D0F8FF1E5445E8EFC1301 /* libReactNativePermissions.a in Frameworks */,
 				216951A5DA624FDB96373E66 /* libRNDeviceInfo.a in Frameworks */,
+				5DD05D9E02FC4BFAAC96FEAA /* libRNCalendarEvents.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -312,6 +323,14 @@
 			isa = PBXGroup;
 			children = (
 				0601034B1E18E1E300F52A32 /* libRNDeviceInfo.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		069C622D1E4B166500DD9597 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				069C623E1E4B166800DD9597 /* libRNCalendarEvents.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -454,6 +473,7 @@
 				6EC21D40C2FA4E0CA7232FA5 /* RNVectorIcons.xcodeproj */,
 				16C9FD365DF04AC5AA6371B4 /* ReactNativePermissions.xcodeproj */,
 				FDC031ACBFC6493E82C951B5 /* RNDeviceInfo.xcodeproj */,
+				0B05905B9EAA41DDB4EED0EB /* RNCalendarEvents.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -611,6 +631,10 @@
 					ProjectRef = 16C9FD365DF04AC5AA6371B4 /* ReactNativePermissions.xcodeproj */;
 				},
 				{
+					ProductGroup = 069C622D1E4B166500DD9597 /* Products */;
+					ProjectRef = 0B05905B9EAA41DDB4EED0EB /* RNCalendarEvents.xcodeproj */;
+				},
+				{
 					ProductGroup = 0601033A1E18E1E300F52A32 /* Products */;
 					ProjectRef = FDC031ACBFC6493E82C951B5 /* RNDeviceInfo.xcodeproj */;
 				},
@@ -672,6 +696,13 @@
 			fileType = archive.ar;
 			path = libRNDeviceInfo.a;
 			remoteRef = 0601034A1E18E1E300F52A32 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		069C623E1E4B166800DD9597 /* libRNCalendarEvents.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNCalendarEvents.a;
+			remoteRef = 069C623D1E4B166800DD9597 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		06E528111D9BE3F000BC10D2 /* libReactNativeConfig.a */ = {
@@ -852,6 +883,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -869,6 +901,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -898,9 +931,10 @@
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-permissions/**",
 					"$(SRCROOT)/../node_modules/react-native-device-info/RNDeviceInfo",
+					"$(SRCROOT)/../node_modules/react-native-calendar-events",
 				);
 				INFOPLIST_FILE = movienightmobile/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -929,9 +963,10 @@
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-permissions/**",
 					"$(SRCROOT)/../node_modules/react-native-device-info/RNDeviceInfo",
+					"$(SRCROOT)/../node_modules/react-native-calendar-events",
 				);
 				INFOPLIST_FILE = movienightmobile/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -991,6 +1026,7 @@
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-permissions/**",
 					"$(SRCROOT)/../node_modules/react-native-device-info/RNDeviceInfo",
+					"$(SRCROOT)/../node_modules/react-native-calendar-events",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -1039,6 +1075,7 @@
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-permissions/**",
 					"$(SRCROOT)/../node_modules/react-native-device-info/RNDeviceInfo",
+					"$(SRCROOT)/../node_modules/react-native-calendar-events",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;

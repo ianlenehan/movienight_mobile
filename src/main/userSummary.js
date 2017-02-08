@@ -107,9 +107,9 @@ class UserSummary extends Component {
           key={index}
           underlayColor={setStyles.primaryColor}>
           <View style={styles.eventDetails}>
-            <Text style={{flex: 3.7}}>{strftime('%a %b %d', date)}</Text>
-            <Text style={{flex: 5}}>{groupName}</Text>
-            <Text style={{flex: 5}}>{location}</Text>
+            <Text style={{flex: 4, lineHeight: 20}}>{strftime('%a %b %d', date)}</Text>
+            <Text style={{flex: 5, lineHeight: 20}}>{groupName}</Text>
+            <Text style={{flex: 5, lineHeight: 20}}>{location}</Text>
           </View>
         </TouchableHighlight>
       );
@@ -252,6 +252,9 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     paddingBottom: 5
+  },
+  eventText: {
+    lineHeight: 2
   },
   userButtons: {
     flex: 0.3,

@@ -71,8 +71,8 @@ class GroupDetail extends Component {
             key={index}
             underlayColor={setStyles.primaryColor}>
             <View style={styles.eventDetails}>
-              <Text style={{flex: 3}}>Date {strftime('%a %b %d', date)}</Text>
-              <Text style={{flex: 5}}>{event.location}</Text>
+              <Text style={{flex: 3, lineHeight: 20}}>Date {strftime('%a %b %d', date)}</Text>
+              <Text style={{flex: 5, lineHeight: 20}}>{event.location}</Text>
             </View>
           </TouchableHighlight>
         );
@@ -107,7 +107,6 @@ class GroupDetail extends Component {
 
   groupImage() {
     const deviceModel = DeviceInfo.getModel();
-    console.log(deviceModel);
     const isiPhone = deviceModel.slice(0, 6) === "iPhone"
     if (isiPhone) {
       return (

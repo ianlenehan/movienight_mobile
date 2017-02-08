@@ -126,6 +126,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-calendar-events')
     compile project(':react-native-device-info')
     compile project(':react-native-permissions')
     compile project(':react-native-vector-icons')
